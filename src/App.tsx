@@ -1,34 +1,20 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import Heatmap from './pages/heatmap.tsx'
 import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+	<div className="p-6">
+	      <h1 className="text-2xl font-bold mb-4">Sensor Heatmap</h1>
+	      <Heatmap />
+	      <div className="text-blue-600 text-3xl font-bold !text-blue-600">Tailwind v4 is working!</div>
+	      <div className="p-4 bg-green-200 text-center text-red-600 text-xl font-bold">
+  		This should be RED text on a light green background
+	      </div>
+
+        </div>
   )
 }
 
