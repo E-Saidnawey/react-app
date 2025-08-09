@@ -56,40 +56,41 @@ const Heatmap: React.FC = () => {
   const sensors = Array.from(new Set(readings.map((r) => r.source)));
   const metrics = Array.from(new Set(readings.map((r) => r.metric_type)));
 
-  if (loading) return <div className="text-center p-4">Loading heatmap...</div>;
+  if (loading) return <div className="text-center p-4 text-gray-500">Loading heatmap...</div>;
   if (error) return <div className="text-center text-red-600 p-4">Error: {error}</div>;
 
   return (
-    <div className="overflow-x-auto">
-      <table className="table-fixed border-collapse w-full text-center">
+    <div className="bg-white rounded-xl shadow-lg p-6 overflow-x-auto">
+
+      <table className="table-fixed border-collapse w-full text-center rounded-lg overflow-hidden">
         <thead>
-          <tr>
-            <th className="border p-2 bg-gray-200">Metric / Sensor</th>
+          <tr className="bg-gray-100">
+            <th className="border p-3 text-gray-700 font-semibold">Metric / Sensor</th>
             {sensors.map((sensor) => (
-              <th key={sensor} className="border p-2 bg-gray-100">
+              <th key={sensor} className="border p-3 text-gray-600 font-medium">
                 {sensor}
               </th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {metrics.map((metric) => (
-            <tr key={metric}>
-              <td className="border p-2 font-semibold bg-gray-100">{metric}</td>
+          {metrics.map((metric, rowIndex) => (
+            <tr key={metric} className={rowIndex % 2 === 0 ? "bg-gray-50" : "bg-white"}>
+              <td className="border p-3 font-semibold text-gray-700">{metric}</td>
               {sensors.map((sensor) => {
                 const reading = readings.find(
                   (r) => r.source === sensor && r.metric_type === metric
                 );
                 const value = reading?.value ?? 0;
-                const opacity = Math.min(value, 1000) / 1000;
+                const normalized = Math.min(value, 1000) / 1000;
 
                 return (
                   <td
                     key={`${sensor}-${metric}`}
                     onClick={() => handleClick(sensor, metric)}
-                    className="border p-2 cursor-pointer hover:brightness-90"
+                    className="border p-3 cursor-pointer transition-transform hover:scale-105 hover:brightness-95"
                     style={{
-                      backgroundColor: `rgba(255, 255, 0, ${opacity})`,
+                      background: `rgba(250, 204, 21, ${normalized})`, // yellow-400 gradient
                     }}
                     title={`Click for history of ${metric} from ${sensor}`}
                   >
@@ -104,9 +105,9 @@ const Heatmap: React.FC = () => {
 
       {/* Chart Modal */}
       {modalData && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg w-[90%] max-w-4xl max-h-[90%] overflow-y-auto shadow-lg">
-            <h2 className="text-xl font-bold mb-4 text-center">{modalTitle}</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 transition-opacity">
+          <div className="bg-white p-6 rounded-lg w-[90%] max-w-4xl max-h-[90%] overflow-y-auto shadow-xl transform transition-all scale-100">
+            <h2 className="text-xl font-bold mb-4 text-center text-gray-800">{modalTitle}</h2>
             <div className="h-96">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={modalData.map((d) => ({
@@ -117,13 +118,13 @@ const Heatmap: React.FC = () => {
                   <XAxis dataKey="timestamp" />
                   <YAxis />
                   <Tooltip />
-                  <Line type="monotone" dataKey="value" stroke="#facc15" />
+                  <Line type="monotone" dataKey="value" stroke="#facc15" strokeWidth={2} dot={false} />
                 </LineChart>
               </ResponsiveContainer>
             </div>
-            <div className="text-center mt-4">
+            <div className="text-center mt-6">
               <button
-                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                className="px-5 py-2 bg-blue-500 text-white rounded-lg font-medium shadow hover:bg-blue-600 transition-colors"
                 onClick={() => setModalData(null)}
               >
                 Close
@@ -137,4 +138,3 @@ const Heatmap: React.FC = () => {
 };
 
 export default Heatmap;
-
