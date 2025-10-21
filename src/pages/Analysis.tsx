@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ExternalLink, FileText, Calendar, Tag } from 'lucide-react';
+import { ExternalLink, Calendar } from 'lucide-react';
 
 interface Project {
   id: string;
@@ -94,72 +94,61 @@ const Analysis: React.FC = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-6xl mx-auto px-6 py-12">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Data Analysis Projects</h1>
-        <p className="text-xl text-gray-600">
+      <div className="text-center mb-16">
+        <h1 className="text-5xl font-light text-gray-900 mb-6">Data Analysis Projects</h1>
+        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
           A collection of my data analysis projects, research, and insights
         </p>
       </div>
 
       {/* Projects Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {projects.map((project) => (
           <div
             key={project.id}
-            className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+            className="border border-gray-200 hover:border-gray-300 transition-colors duration-200"
           >
-            {/* Project Thumbnail */}
-            <div className="h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-              <FileText className="w-16 h-16 text-white opacity-80" />
-            </div>
-
             {/* Project Content */}
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-xl font-semibold text-gray-900 line-clamp-1">
+            <div className="p-8">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-2xl font-medium text-gray-900">
                   {project.title}
                 </h3>
-                <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1">
                   {project.notebookType.toUpperCase()}
                 </span>
               </div>
 
-              <p className="text-gray-600 mb-4 line-clamp-3">
+              <p className="text-gray-600 mb-6 leading-relaxed">
                 {project.description}
               </p>
 
               {/* Tags */}
-              <div className="flex flex-wrap gap-2 mb-4">
-                {project.tags.slice(0, 3).map((tag, index) => (
+              <div className="flex flex-wrap gap-2 mb-6">
+                {project.tags.map((tag, index) => (
                   <span
                     key={index}
-                    className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
+                    className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium hover:bg-gray-200 transition-colors duration-200"
                   >
-                    <Tag className="w-3 h-3 mr-1" />
                     {tag}
                   </span>
                 ))}
-                {project.tags.length > 3 && (
-                  <span className="text-xs text-gray-500">
-                    +{project.tags.length - 3} more
-                  </span>
-                )}
               </div>
 
               {/* Date and Action */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center text-sm text-gray-500">
-                  <Calendar className="w-4 h-4 mr-1" />
+                  <Calendar className="w-4 h-4 mr-2" />
                   {formatDate(project.createdAt)}
                 </div>
                 <button
                   onClick={() => handleViewNotebook(project)}
-                  className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                  className="inline-flex items-center px-6 py-2 bg-gray-900 text-white text-sm font-medium hover:bg-gray-800 transition-colors duration-200"
                 >
                   <ExternalLink className="w-4 h-4 mr-2" />
-                  View
+                  View Project
                 </button>
               </div>
             </div>
@@ -170,15 +159,15 @@ const Analysis: React.FC = () => {
       {/* Project Detail Modal */}
       {selectedProject && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl font-bold text-gray-900">
+          <div className="bg-white max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-8">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-3xl font-light text-gray-900">
                   {selectedProject.title}
                 </h2>
                 <button
                   onClick={() => setSelectedProject(null)}
-                  className="text-gray-400 hover:text-gray-600"
+                  className="text-gray-400 hover:text-gray-600 transition-colors duration-200"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -186,22 +175,21 @@ const Analysis: React.FC = () => {
                 </button>
               </div>
 
-              <div className="mb-6">
-                <p className="text-gray-700 mb-4">{selectedProject.description}</p>
+              <div className="mb-8">
+                <p className="text-lg text-gray-600 mb-6 leading-relaxed">{selectedProject.description}</p>
                 
-                <div className="flex flex-wrap gap-2 mb-4">
+                <div className="flex flex-wrap gap-2 mb-6">
                   {selectedProject.tags.map((tag, index) => (
                     <span
                       key={index}
-                      className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800"
+                      className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium"
                     >
-                      <Tag className="w-3 h-3 mr-1" />
                       {tag}
                     </span>
                   ))}
                 </div>
 
-                <div className="flex items-center text-sm text-gray-500 mb-4">
+                <div className="flex items-center text-sm text-gray-500 mb-6">
                   <Calendar className="w-4 h-4 mr-2" />
                   Created: {formatDate(selectedProject.createdAt)}
                 </div>
@@ -212,14 +200,14 @@ const Analysis: React.FC = () => {
                   href={selectedProject.notebookPath}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                  className="inline-flex items-center px-8 py-3 bg-gray-900 text-white font-medium hover:bg-gray-800 transition-colors duration-200"
                 >
                   <ExternalLink className="w-4 h-4 mr-2" />
                   Open Notebook
                 </a>
                 <button
                   onClick={() => setSelectedProject(null)}
-                  className="inline-flex items-center px-6 py-3 bg-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-400 transition-colors duration-200"
+                  className="inline-flex items-center px-8 py-3 border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors duration-200"
                 >
                   Close
                 </button>

@@ -105,3 +105,4 @@ echo -e "   2. Set up your backend API server"
 echo -e "   3. Configure your PostgreSQL database"
 echo -e "   4. Update environment variables as needed"
 echo -e "   5. Monitor logs with: docker logs $CONTAINER_NAME -f"
+
