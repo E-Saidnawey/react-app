@@ -15,28 +15,30 @@ const Resume: React.FC = () => {
 
   const getSkillDescription = (skill: string) => {
     const descriptions: { [key: string]: string } = {
-      "Python": "Proficient in Python for data analysis, machine learning, and automation. Experience with pandas, numpy, scikit-learn, and matplotlib.",
-      "R": "Statistical computing and data analysis using R. Experience with tidyverse, ggplot2, and statistical modeling packages.",
-      "SQL": "Database querying and management with PostgreSQL, MySQL. Experience with complex queries, joins, and database optimization.",
-      "MATLAB": "Numerical computing and simulation using MATLAB. Experience with signal processing, control systems, and data visualization.",
-      "Machine Learning": "Supervised and unsupervised learning algorithms, model evaluation, feature engineering, and deployment strategies.",
-      "Statistical Analysis": "Hypothesis testing, regression analysis, experimental design, and statistical modeling for data-driven insights.",
-      "Data Visualization": "Creating compelling visualizations using matplotlib, seaborn, plotly, and Tableau for effective data communication.",
-      "PostgreSQL": "Database design, optimization, and administration. Experience with complex queries, indexing, and performance tuning."
+      "Python": "Proficient in Python for data analysis, full stack application development, automation tasks, and simulation modeling. Experience with pandas, numpy, simpy, and matplotlib.",
+      "R": "Statistical computing and data analysis using R. Experience with tidyverse, ggplot2, and various statistical modeling packages.",
+      "SQL": "Database querying and management with PostgreSQL. Experience with complex queries, joins, and database optimization.",
+      "MATLAB": "Numerical computing and simulation using MATLAB. Experience with signal processing, automation tasks, modeling packages, and data visualization.",
+      "Statistical Analysis": "Hypothesis testing, advanced regression analysis, data massaging, experimental design, and statistical modeling for data-driven insights.",
+      "Data Visualization": "Creating compelling visualizations using matplotlib, ggplot2, matlab auto powerpoint features, and Tableau for effective data communication.",
+      "Big Data Engineering": "Managing terabytes of data",
     };
     return descriptions[skill] || "Click to learn more about this skill.";
   };
 
   const getClassDescription = (className: string) => {
     const descriptions: { [key: string]: string } = {
-      "Machine Learning for Trading": "Advanced course covering algorithmic trading strategies, quantitative finance, and machine learning applications in financial markets.",
-      "Data Mining and Statistical Learning": "Comprehensive study of data mining techniques, statistical learning methods, and pattern recognition algorithms.",
-      "Computational Data Analysis": "Large-scale data processing, distributed computing, and advanced analytical techniques for big data applications.",
-      "Big Data for Health Informatics": "Healthcare data analysis, medical informatics, and applications of big data in biomedical research and clinical decision support.",
-      "Engineering Statistics": "Statistical methods for engineering applications, quality control, reliability analysis, and experimental design.",
-      "Numerical Methods": "Computational techniques for solving mathematical problems, numerical analysis, and algorithm implementation.",
-      "Data Analysis and Visualization": "Comprehensive data analysis workflow, statistical methods, and visualization techniques for engineering applications.",
-      "Mathematical Modeling": "Mathematical modeling techniques, simulation methods, and optimization algorithms for engineering problems."
+      "Introduction to Analytics Modeling": "An introduction to important and commonly used models in Analytics, as well as aspects of the modeling process. Topics include learning SVM, Classification, Advanced Regression, Advanced Data Preparation, Time Series Models, and Optimization",
+      "Introduction to Computing for Data Analysis": "A hands-on introduction to programming techniques relevant to data analysis and machine learning.",
+      "Engineering Computations": "MAE 2117",
+      "Linear Algebra": "MATH 2184",
+      "Multivariable Calculus": "MATH 2233",
+      "Engineering Analysis III": "APSC 3115",
+      "Methods of Engineering Experimentation": "MAE 3120",
+      "Thermodynamics": "MAE 2131",
+      "Fluid Dynamics": "MAE 3126",
+      "Orbital Dynamics": "MAE 3145",
+      "Linear System Dynamics": "MAE 3134"
     };
     return descriptions[className] || "Click to learn more about this class.";
   };
@@ -46,7 +48,7 @@ const Resume: React.FC = () => {
     title: "Data Analyst / Systems Engineer",
     email: "esaidnawey165@gmail.com",
     phone: "+1 (617) 999-2342",
-    location: "Los Angeles, CA",
+    location: "New York City, NY | Los Angeles, CA",
     summary: "Passionate Data analyst with expertise in statistical analysis, data mining, and data visualization. Currently pursuing a graduate degree at Georgia Tech (sting em!).",
     experience: [
       {
@@ -91,10 +93,8 @@ const Resume: React.FC = () => {
         year: "Est. 2027",
         gpa: "3.5/4.0",
         applicableClasses: [
-          "Machine Learning for Trading",
-          "Data Mining and Statistical Learning",
-          "Computational Data Analysis",
-          "Big Data for Health Informatics"
+          "Introduction to Analytics Modeling",
+          "Introduction to Computing for Data Analysis"
         ]
       },
       {
@@ -103,10 +103,15 @@ const Resume: React.FC = () => {
         year: "2022",
         gpa: "3.5/4.0",
         applicableClasses: [
-          "Engineering Statistics",
-          "Numerical Methods",
-          "Data Analysis and Visualization",
-          "Mathematical Modeling"
+      "Engineering Computations",
+      "Linear Algebra",
+      "Multivariable Calculus",
+      "Engineering Analysis III",
+      "Methods of Engineering Experimentation",
+      "Thermodynamics",
+      "Fluid Dynamics",
+      "Orbital Dynamics",
+      "Linear System Dynamics"
         ]
       }
     ],
@@ -167,7 +172,7 @@ const Resume: React.FC = () => {
                 </span>
               </div>
               <p className="text-lg font-medium text-gray-700 mb-4 text-left">{exp.company}</p>
-              <p className="text-gray-700 mb-4 leading-relaxed">{exp.description}</p>
+              <p className="text-gray-700 mb-4 text-left leading-relaxed">{exp.description}</p>
               <ul className="space-y-2">
                 {exp.achievements.map((achievement, achIndex) => (
                   <li key={achIndex} className="text-gray-600 flex items-start">
@@ -200,7 +205,7 @@ const Resume: React.FC = () => {
                 )}
               </div>
               <div>
-                <h4 className="text-sm font-medium text-gray-700 mb-3">Applicable Classes:</h4>
+                <h4 className="text-sm font-medium text-gray-700 mb-3">Relevent Coursework:</h4>
                 <div className="flex flex-wrap justify-center gap-2">
                   {edu.applicableClasses.map((className, classIndex) => (
                     <button
@@ -238,7 +243,7 @@ const Resume: React.FC = () => {
 
       {/* Skill Description Modal */}
       {selectedSkill && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
           <div className="bg-white max-w-md w-full p-6 rounded-lg">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-medium text-gray-900">{selectedSkill}</h3>
@@ -258,7 +263,7 @@ const Resume: React.FC = () => {
 
       {/* Class Description Modal */}
       {selectedClass && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
           <div className="bg-white max-w-md w-full p-6 rounded-lg">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-medium text-gray-900">{selectedClass}</h3>
