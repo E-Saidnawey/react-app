@@ -19,64 +19,74 @@ const Analysis: React.FC = () => {
   const projects: Project[] = [
     {
       id: '1',
-      title: 'Plant Growth Analysis',
-      description: 'Statistical analysis of plant growth patterns using sensor data from IoT devices. Includes correlation analysis between environmental factors and growth rates.',
-      notebookPath: '/notebooks/plant_growth_analysis.ipynb',
-      notebookType: 'ipynb',
-      tags: ['Python', 'Pandas', 'Matplotlib', 'IoT', 'Statistics'],
-      createdAt: '2024-01-15',
+      title: 'Principle Component Analysis',
+      description: 'Analysis of a US Crime data set, using principle component analysis and regression with R packages prcomp and lm ',
+      notebookPath: '/notebooks/PCA_Analysis.pdf',
+      notebookType: 'rmd',
+      tags: ['R', 'PCA', 'prcomp', 'Linear Regression'],
+      createdAt: '2025-10-01',
       thumbnail: '/images/plant-analysis-thumb.png'
     },
     {
       id: '2',
-      title: 'Climate Data Visualization',
-      description: 'Interactive dashboard for climate data analysis using R and Shiny. Features time series analysis and predictive modeling for temperature trends.',
-      notebookPath: '/notebooks/climate_analysis.Rmd',
+      title: 'Advanced Regression Analysis',
+      description: 'Using stepwise regression, Lasso regression, and Elastic Net regression to analyze US Crime data set.',
+      notebookPath: '/notebooks/AdvancedRegressionAnalysis.pdf',
       notebookType: 'rmd',
-      tags: ['R', 'Shiny', 'Time Series', 'Climate', 'Visualization'],
-      createdAt: '2024-01-10',
+      tags: ['R', 'BIC', 'AIC', 'Stepwise Regression', 'Lasso Regression', 'Elastic Net Regression'],
+      createdAt: '2024-10-10',
       thumbnail: '/images/climate-dashboard-thumb.png'
     },
     {
       id: '3',
-      title: 'Customer Segmentation',
-      description: 'Machine learning project using K-means clustering to segment customers based on purchasing behavior and demographics.',
-      notebookPath: '/notebooks/customer_segmentation.ipynb',
-      notebookType: 'ipynb',
-      tags: ['Machine Learning', 'Clustering', 'Scikit-learn', 'Business Intelligence'],
-      createdAt: '2024-01-05',
+      title: 'Atlanta Summer Heat Trend Pt 1',
+      description: 'Using a CUSUM approach to identify when unofficial summer ends in Atlanta and if the summers have gotten warmer in the past 20 years',
+      notebookPath: '/notebooks/TrendAtlantaSummers.pdf',
+      notebookType: 'rmd',
+      tags: ['R', 'CUSUM', 'Climate Analysis', 'Data Preparation'],
+      createdAt: '2025-09-06',
       thumbnail: '/images/customer-segmentation-thumb.png'
     },
     {
       id: '4',
-      title: 'Sales Forecasting',
-      description: 'Time series forecasting model using ARIMA and Prophet to predict sales trends and seasonal patterns.',
-      notebookPath: '/notebooks/sales_forecasting.ipynb',
-      notebookType: 'ipynb',
-      tags: ['Time Series', 'ARIMA', 'Prophet', 'Forecasting', 'Business Analytics'],
-      createdAt: '2023-12-20',
+      title: 'Atlanta Summer Heat Trend Pt 2',
+      description: 'Created an exponential smoothing model to determine if the Atlanta summer has gotten warmer over the past 20 years.',
+      notebookPath: '/notebooks/TrendAtlantaSummer2.pdf',
+      notebookType: 'rmd',
+      tags: ['R', 'Exponential Smoothing', 'Trending', 'Multiplicative Seasonality', 'Time Series', 'Decomposition'],
+      createdAt: '2025-09-11',
       thumbnail: '/images/sales-forecast-thumb.png'
     },
     {
       id: '5',
-      title: 'A/B Testing Analysis',
-      description: 'Statistical analysis of A/B test results for website conversion optimization. Includes power analysis and confidence intervals.',
-      notebookPath: '/notebooks/ab_testing_analysis.Rmd',
-      notebookType: 'rmd',
-      tags: ['Statistics', 'A/B Testing', 'Hypothesis Testing', 'R', 'Business Analytics'],
-      createdAt: '2023-12-15',
+      title: 'SimPy Airport Simulation ',
+      description: 'Use Pythons SimPy to simulate an airport that has a queue behind the ticket counter and the security check',
+      notebookPath: '/notebooks/SimpyTutorial.pdf',
+      notebookType: 'ipynb',
+      tags: ['Python', 'SimPy', 'Classes', 'Simulation Analysis'],
+      createdAt: '2025-10-19',
       thumbnail: '/images/ab-testing-thumb.png'
     },
     {
       id: '6',
-      title: 'Social Media Sentiment Analysis',
-      description: 'Natural language processing project analyzing sentiment of social media posts using machine learning and text mining techniques.',
-      notebookPath: '/notebooks/sentiment_analysis.ipynb',
+      title: 'Regression Trees and Random Forests',
+      description: 'Using Regression Trees and Random Forest models to analyze crime rate data in various states.',
+      notebookPath: '/notebooks/RegressionTrees_AndForests.pdf',
       notebookType: 'ipynb',
-      tags: ['NLP', 'Sentiment Analysis', 'Text Mining', 'Machine Learning', 'Social Media'],
-      createdAt: '2023-12-10',
+      tags: ['R', 'Regression Tree', 'Random Forest', 'Crime Rate Analysis'],
+      createdAt: '2025-10-03',
       thumbnail: '/images/sentiment-analysis-thumb.png'
-    }
+    }, 
+    {
+      id: '7',
+      title: 'K Nearest Neighbors and K Means Analysis in R',
+      description: 'Created a KNN model to determine crime rate data in a city with multiple components. Additionally, use K means to determine flower type in iris data set',
+      notebookPath: '/notebooks/K_Nearest_Neighbors.pdf',
+      notebookType: 'rmd',
+      tags: ['R', 'kknn', 'kmeans', 'Cross-Validation', 'Data Preparation'],
+      createdAt: '2025-08-30',
+      thumbnail: '/images/sentiment-analysis-thumb.png'
+    }, 
   ];
 
   const handleViewNotebook = (project: Project) => {
@@ -158,7 +168,7 @@ const Analysis: React.FC = () => {
 
       {/* Project Detail Modal */}
       {selectedProject && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
           <div className="bg-white max-w-3xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-8">
               <div className="flex items-center justify-between mb-6">
