@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Download, Mail, Phone, MapPin, ExternalLink } from 'lucide-react';
+import { Briefcase, Download, Mail, Phone, MapPin } from 'lucide-react';
 
 const Resume: React.FC = () => {
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
@@ -21,24 +21,24 @@ const Resume: React.FC = () => {
       "MATLAB": "Numerical computing and simulation using MATLAB. Experience with signal processing, automation tasks, modeling packages, and data visualization.",
       "Statistical Analysis": "Hypothesis testing, advanced regression analysis, data massaging, experimental design, and statistical modeling for data-driven insights.",
       "Data Visualization": "Creating compelling visualizations using matplotlib, ggplot2, matlab auto powerpoint features, and Tableau for effective data communication.",
-      "Big Data Engineering": "Managing terabytes of data",
+      "Big Data Engineering": "Managing terabytes of data"
     };
     return descriptions[skill] || "Click to learn more about this skill.";
   };
 
   const getClassDescription = (className: string) => {
     const descriptions: { [key: string]: string } = {
-      "Introduction to Analytics Modeling": "An introduction to important and commonly used models in Analytics, as well as aspects of the modeling process. Topics include learning SVM, Classification, Advanced Regression, Advanced Data Preparation, Time Series Models, and Optimization",
+      "Introduction to Analytics Modeling": "An introduction to important and commonly used models in Analytics, as well as aspects of the modeling process. Topics include learning SVM, Classification, Advanced Regression, Advanced Data Preparation, Time Series Models, and Optimization. This course is designed to gain an intuitive understanding of fundamental models and methods of analytics and practice how to implement them using common industry tools like R",
       "Introduction to Computing for Data Analysis": "A hands-on introduction to programming techniques relevant to data analysis and machine learning.",
-      "Engineering Computations": "MAE 2117",
-      "Linear Algebra": "MATH 2184",
-      "Multivariable Calculus": "MATH 2233",
-      "Engineering Analysis III": "APSC 3115",
-      "Methods of Engineering Experimentation": "MAE 3120",
-      "Thermodynamics": "MAE 2131",
-      "Fluid Dynamics": "MAE 3126",
-      "Orbital Dynamics": "MAE 3145",
-      "Linear System Dynamics": "MAE 3134"
+      "Engineering Computations": "Computational thinking: modeling and simulation practices. Numerical derivatives. Initial-value problems. Solving differential equations, direction fields, the phase plane. Geometry of linear algebra; eigenvalues and eigenvectors. Fourier analysis",
+      "Linear Algebra": "Linear equations, matrices, inverses, and determinants. Vector spaces, rank, eigenvalues, and diagonalization. Applications to geometry and ordinary differential equations",
+      "Multivariable Calculus": "Partial derivatives and multiple integrals. Vector-valued functions. Line and surface integrals and the theorems of Gauss, Green, and Stokes.",
+      "Engineering Analysis III": "Analytical methods for the solution of engineering problems using probability and statistics concepts: probability distributions, random variables, expectations, confidence intervals, sampling, hypothesis testing, correlation, and regression.",
+      "Methods of Engineering Experimentation": "Acquisition and analysis of experimental data. Laws of modeling and simulation. Report formulation and presentation. Basic principles of measuring instruments and sensors. Fundamentals of digital data acquisition and use of computer-based data systems",
+      "Thermodynamics": "Fundamentals of equilibrium thermodynamics; Zeroth, First, and Second Laws. Work, heat, internal energy, enthalpy, thermodynamic potential functions; heat transfer mechanisms, phase diagrams, equations of state and property tables, power systems, refrigeration, heat pump systems. Reversible and irreversible processes, Carnot cycle, entropy, exergy",
+      "Fluid Mechanics": "Fluid properties, fluid statics, integral and differential formulations of conservation of mass, momentum, and energy. Bernoulli’s equation. Dimensional analysis and similitude. Inviscid flow. Viscous flow. Experimental and computational methods in fluid mechanics. Prerequisite: APSC 2058. (Fall, Every year)",
+      "Orbital Mechanics and Spacecraft Dynamics": "Coordinate systems and transformations, rocket equation, two-body problem, orbit transfers, orbit perturbations, attitude dynamics and stability of symmetric spacecraft, environmental and control torques.",
+      "Linear System Dynamics": "Modeling of linear mechanical, electrical, and fluid systems as transfer functions and in state space. Linearization, discretization. Laplace and z-transforms. Natural frequencies and damping, free vibration, forced vibration. Measurement techniques, parameter estimation, and computer simulation. Time and frequency domain analysis."
     };
     return descriptions[className] || "Click to learn more about this class.";
   };
@@ -161,7 +161,8 @@ const Resume: React.FC = () => {
 
       {/* Experience Section */}
       <div className="mb-16">
-        <h2 className="text-3xl font-light text-gray-900 mb-8">Experience</h2>
+        
+        <h2 className="text-3xl font-light text-gray-800 mb-8">Experience</h2>
         <div className="space-y-6">
           {resumeData.experience.map((exp, index) => (
             <div key={index} className="border border-gray-200 p-6 rounded-lg">
