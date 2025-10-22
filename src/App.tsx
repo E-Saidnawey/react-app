@@ -1,16 +1,21 @@
-import { useState } from 'react'
-import Heatmap from './pages/heatmap.tsx'
-import './App.css'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
+import Resume from './pages/Resume';
+import Analysis from './pages/Analysis';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-	<div className="p-6">
-	      <h1 className="text-2xl font-bold mb-4">Sensor Heatmap</h1>
-	      <Heatmap />
-        </div>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Resume />} />
+          <Route path="analysis" element={<Analysis />} />
+        </Route>
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;

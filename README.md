@@ -1,69 +1,47 @@
-# React + TypeScript + Vite
+# Simple Personal Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A clean, simple portfolio website with three sections: Resume, Data Analysis Projects, and Plant Monitor.
 
-Currently, two official plugins are available:
+## What it does
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Resume Page**: Shows your resume with download link
+- **Analysis Page**: Displays your data analysis projects with links to notebooks
+- **Plant Monitor**: Shows plant sensor data (currently with sample data)
 
-## Expanding the ESLint configuration
+## Quick Start
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+```bash
+# Install dependencies
+npm install
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Start development server
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Visit `http://localhost:5173` to see your portfolio.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## For Production
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1. **Host it**: Deploy to any static hosting (Netlify, Vercel, etc.)
+2. **Connect database**: Replace the sample data in `PlantMonitor.tsx` with real database calls
+3. **Add your projects**: Edit the projects array in `Analysis.tsx`
+4. **Add your resume**: Replace `public/resume.pdf` with your actual resume
+
+That's it! No complex setup needed.
+
+## Files to Edit
+
+- `src/pages/Resume.tsx` - Update your personal information
+- `src/pages/Analysis.tsx` - Add your data analysis projects
+- `src/pages/PlantMonitor.tsx` - Connect to your database (optional)
+- `public/resume.pdf` - Add your actual resume
+- `public/notebooks/` - Add your analysis notebooks
+
+## Tech Stack
+
+- React + TypeScript
+- TailwindCSS for styling
+- React Router for navigation
+- Vite for building
+
+Simple and clean!
