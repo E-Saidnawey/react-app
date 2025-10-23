@@ -145,7 +145,7 @@ const Resume: React.FC = () => {
             </div>
           </div>
           <a
-            href="/resume.pdf"
+            href="/Eric_Saidnawey_Resume.pdf"
             download
             className="inline-flex items-center px-8 py-3 bg-gray-900 text-white font-medium hover:bg-gray-800 transition-colors duration-200"
           >
