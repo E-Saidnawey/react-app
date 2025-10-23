@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import "./heatmap.css";
 
 // Update with your backend API base URL
