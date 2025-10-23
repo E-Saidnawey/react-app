@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Briefcase, Download, Mail, Phone, MapPin } from 'lucide-react';
+import { Download, Mail, Phone, MapPin } from 'lucide-react';
 
 const Resume: React.FC = () => {
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
