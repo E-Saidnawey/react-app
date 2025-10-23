@@ -109,7 +109,7 @@ const Analysis: React.FC = () => {
       <div className="text-center mb-16">
         <h1 className="text-5xl font-light text-gray-900 mb-6">Data Analysis Projects</h1>
         <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-          A collection of my data analysis projects, research, and insights
+          A collection of my data analysis projects, research, and insights. Includes various homeworks from my Masters of Science and hobby analysis.
         </p>
       </div>
 
