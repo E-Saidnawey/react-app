@@ -16,7 +16,7 @@ const Home: React.FC = () => {
           </p>
           <p className="text-xl text-gray-600 mb-12 leading-relaxed max-w-2xl mx-auto">
             I transform complex data into actionable insights, building predictive models 
-            and analytics solutions that drive decision-making at Northrop Grumman and beyond.
+            and analytics solutions that drive decision-making.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
