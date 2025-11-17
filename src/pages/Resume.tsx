@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Download, Mail, Phone, MapPin } from 'lucide-react';
+import { Mail, Phone, MapPin, Briefcase, GraduationCap, Code } from "lucide-react";
 
 const Resume: React.FC = () => {
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
@@ -49,7 +49,12 @@ const Resume: React.FC = () => {
     email: "esaidnawey165@gmail.com",
     phone: "+1 (617) 999-2342",
     location: "New York City, NY | Los Angeles, CA",
-    summary: "Passionate Data analyst with expertise in statistical analysis, data mining, and data visualization. Currently pursuing a graduate degree at Georgia Tech (sting em!).",
+    about: {
+      title: "About Me",
+      text: `I’m a Data Analyst and Systems Engineer passionate about building data-driven solutions 
+      that improve technical performance and decision-making. My work bridges engineering rigor with 
+      analytical insight — from predictive modeling and anomaly detection to full-stack web development.`
+    },
     experience: [
       {
         company: "Northrop Grumman Corporation - SBIRS Line-of-Sight (LOS)",
@@ -91,7 +96,7 @@ const Resume: React.FC = () => {
         institution: "Georgia Institute of Technology",
         degree: "Master of Science in Data Science",
         year: "Est. 2027",
-        gpa: "3.5/4.0",
+        gpa: "4.0/4.0",
         applicableClasses: [
           "Introduction to Analytics Modeling",
           "Introduction to Computing for Data Analysis"
@@ -122,97 +127,81 @@ const Resume: React.FC = () => {
   };
 
   return (
-    <div className="w-full px-6 py-12">
-      {/* Header Section */}
-      <div className="mb-16">
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-light text-gray-900 mb-4">
-            {resumeData.name}
-          </h1>
-          <p className="text-xl text-gray-600 mb-8">{resumeData.title}</p>
-          <div className="flex flex-wrap justify-center gap-8 text-gray-500 mb-8">
-            <div className="flex items-center">
-              <Mail className="w-4 h-4 mr-2" />
-              {resumeData.email}
-            </div>
-            <div className="flex items-center">
-              <Phone className="w-4 h-4 mr-2" />
-              {resumeData.phone}
-            </div>
-            <div className="flex items-center">
-              <MapPin className="w-4 h-4 mr-2" />
-              {resumeData.location}
-            </div>
-          </div>
-          <a
-            href="/Eric_Saidnawey_Resume.pdf"
-            download
-            className="inline-flex items-center px-8 py-3 bg-gray-900 text-white font-medium hover:bg-gray-800 transition-colors duration-200"
-          >
-            <Download className="w-4 h-4 mr-2" />
-            Download Resume
-          </a>
-        </div>
-        
-        <div className="max-w-3xl mx-auto text-center">
-          <p className="text-lg text-gray-600 leading-relaxed">{resumeData.summary}</p>
-        </div>
-      </div>
+  <div className="min-h-screen bg-background py-12">
+    <div className="container mx-auto max-w-4xl px-4">
+      {/* Header */}
+      <header className="mb-12 text-center">
+        <h1 className="mb-3 text-4xl font-bold text-foreground">{resumeData.name}</h1>
+        <p className="text-lg text-muted-foreground">{resumeData.title}</p>
+        <p className="mt-2 text-sm text-muted-foreground">
+          <Mail className="inline w-4 h-4 mr-1 text-accent" /> {resumeData.email} &nbsp;|&nbsp;
+          <Phone className="inline w-4 h-4 mr-1 text-accent" /> {resumeData.phone} &nbsp;|&nbsp;
+          <MapPin className="inline w-4 h-4 mr-1 text-accent" /> {resumeData.location}
+        </p>
+      </header>
 
-      {/* Experience Section */}
-      <div className="mb-16">
-        
-        <h2 className="text-3xl font-light text-gray-800 mb-8">Experience</h2>
+      {/* About */}
+      <section className="mb-10">
+        <h2 className="mb-4 text-2xl font-semibold text-foreground">{resumeData.about.title}</h2>
+        <p className="text-muted-foreground leading-relaxed">{resumeData.about.text}</p>
+      </section>
+
+      {/* Experience */}
+      <section className="mb-10">
+        <div className="mb-4 flex items-center gap-2">
+          <Briefcase className="h-5 w-5 text-accent" />
+          <h2 className="text-2xl font-semibold text-foreground">Experience</h2>
+        </div>
         <div className="space-y-6">
-          {resumeData.experience.map((exp, index) => (
-            <div key={index} className="border border-gray-200 p-6 rounded-lg">
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-3">
-                <h3 className="text-xl font-medium text-gray-900">{exp.position}</h3>
-                <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
-                  {exp.duration}
-                </span>
+          {resumeData.experience.map((job, index) => (
+            <div
+              key={index}
+              className="bg-card border border-border rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow"
+            >
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
+                <h3 className="text-lg font-semibold text-foreground">{job.position}</h3>
+                <span className="text-sm text-muted-foreground">{job.duration}</span>
               </div>
-              <p className="text-lg font-medium text-gray-700 mb-4 text-left">{exp.company}</p>
-              <p className="text-gray-700 mb-4 text-left leading-relaxed">{exp.description}</p>
-              <ul className="space-y-2">
-                {exp.achievements.map((achievement, achIndex) => (
-                  <li key={achIndex} className="text-gray-600 flex items-start">
-                    <span className="w-2 h-2 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                    <span className="text-left">{achievement}</span>
-                  </li>
+              <p className="text-sm font-medium text-muted-foreground mb-2">{job.company}</p>
+              <p className="text-muted-foreground mb-4">{job.description}</p>
+              <ul className="list-disc list-inside space-y-2 text-muted-foreground">
+                {job.achievements.map((a, i) => (
+                  <li key={i}>{a}</li>
                 ))}
               </ul>
             </div>
           ))}
         </div>
-      </div>
+      </section>
 
-      {/* Education Section */}
-      <div className="mb-16">
-        <h2 className="text-3xl font-light text-gray-900 mb-8">Education</h2>
+      {/* Education */}
+      <section className="mb-10">
+        <div className="mb-4 flex items-center gap-2">
+          <GraduationCap className="h-5 w-5 text-accent" />
+          <h2 className="text-2xl font-semibold text-foreground">Education</h2>
+        </div>
         <div className="space-y-6">
           {resumeData.education.map((edu, index) => (
-            <div key={index} className="border border-gray-200 p-6 rounded-lg">
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-3">
-                <h3 className="text-xl font-medium text-gray-900">{edu.degree}</h3>
-                <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
-                  {edu.year}
-                </span>
+            <div
+              key={index}
+              className="bg-card border border-border rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow"
+            >
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
+                <h3 className="text-lg font-semibold text-foreground">{edu.degree}</h3>
+                <span className="text-sm text-muted-foreground">{edu.year}</span>
               </div>
-              <p className="text-lg font-medium text-gray-700 mb-4 text-left">{edu.institution}</p>
-              <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
-                {edu.gpa && (
-                  <span>GPA: {edu.gpa}</span>
-                )}
-              </div>
+              <p className="text-sm font-medium text-muted-foreground mb-3">{edu.institution}</p>
+              {edu.gpa && (
+                <p className="text-sm text-muted-foreground mb-3">GPA: {edu.gpa}</p>
+              )}
               <div>
-                <h4 className="text-sm font-medium text-gray-700 mb-3">Relevent Coursework:</h4>
-                <div className="flex flex-wrap justify-center gap-2">
-                  {edu.applicableClasses.map((className, classIndex) => (
+                <p className="text-sm font-medium text-foreground mb-2">Relevant Coursework:</p>
+                <div className="flex flex-wrap gap-2">
+                  {edu.applicableClasses.map((className, i) => (
                     <button
-                      key={classIndex}
-                      className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-full border border-gray-200 hover:bg-gray-200 transition-colors duration-200"
+                      key={i}
                       onClick={() => handleClassClick(className)}
+                      className="px-3 py-1 bg-muted text-foreground text-xs font-medium rounded-full hover:bg-muted/70 transition"
                     >
                       {className}
                     </button>
@@ -222,67 +211,67 @@ const Resume: React.FC = () => {
             </div>
           ))}
         </div>
-      </div>
+      </section>
 
       {/* Skills */}
-      <div className="mb-16">
-        <h2 className="text-3xl font-light text-gray-900 mb-8 text-center">Skills</h2>
-        <div className="border border-gray-200 p-6 rounded-lg">
-          <div className="flex flex-wrap justify-center gap-3">
-            {resumeData.skills.map((skill, index) => (
-              <button
-                key={index}
-                className="px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium hover:bg-gray-200 transition-colors duration-200 rounded-full border border-gray-200"
-                onClick={() => handleSkillClick(skill)}
-              >
-                {skill}
-              </button>
-            ))}
+      <section className="mb-10">
+        <div className="mb-4 flex items-center gap-2">
+          <Code className="h-5 w-5 text-accent" />
+          <h2 className="text-2xl font-semibold text-foreground">Skills</h2>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {resumeData.skills.map((skill, i) => (
+            <button
+              key={i}
+              onClick={() => handleSkillClick(skill)}
+              className="px-3 py-1 bg-muted text-foreground text-xs font-medium rounded-full hover:bg-muted/70 transition"
+            >
+              {skill}
+            </button>
+          ))}
+        </div>
+      </section>
+    </div>
+
+    {/* Skill Description Modal */}
+    {selectedSkill && (
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+        <div className="bg-white max-w-md w-full p-6 rounded-lg shadow-lg">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-foreground">{selectedSkill}</h3>
+            <button
+              onClick={() => setSelectedSkill(null)}
+              className="text-muted-foreground hover:text-foreground"
+            >
+              ✕
+            </button>
           </div>
+          <p className="text-muted-foreground">{getSkillDescription(selectedSkill)}</p>
         </div>
       </div>
+    )}
 
-      {/* Skill Description Modal */}
-      {selectedSkill && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white max-w-md w-full p-6 rounded-lg">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-medium text-gray-900">{selectedSkill}</h3>
-              <button
-                onClick={() => setSelectedSkill(null)}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            <p className="text-gray-600 leading-relaxed">{getSkillDescription(selectedSkill)}</p>
+    {/* Class Description Modal */}
+    {selectedClass && (
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+        <div className="bg-white max-w-md w-full p-6 rounded-lg shadow-lg">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-foreground">{selectedClass}</h3>
+            <button
+              onClick={() => setSelectedClass(null)}
+              className="text-muted-foreground hover:text-foreground"
+            >
+              ✕
+            </button>
           </div>
+          <p className="text-muted-foreground">{getClassDescription(selectedClass)}</p>
         </div>
-      )}
+      </div>
+    )}
+  </div>
+);
 
-      {/* Class Description Modal */}
-      {selectedClass && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white max-w-md w-full p-6 rounded-lg">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-medium text-gray-900">{selectedClass}</h3>
-              <button
-                onClick={() => setSelectedClass(null)}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            <p className="text-gray-600 leading-relaxed">{getClassDescription(selectedClass)}</p>
-          </div>
-        </div>
-      )}
-    </div>
-  );
+  
 };
 
 export default Resume;

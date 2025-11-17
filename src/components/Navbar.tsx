@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Home, BarChart3 } from 'lucide-react';
+import { Menu, X, Home, BarChart3, Newspaper } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
   const navItems = [
-    { path: '/', label: 'Resume', icon: Home },
+    { path: '/', label: 'Home', icon: Home },
+    { path: '/Resume', label: 'Resume', icon: Newspaper},
     { path: '/analysis', label: 'Analysis', icon: BarChart3 },
   ];
 
