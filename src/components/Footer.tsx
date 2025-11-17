@@ -6,7 +6,11 @@ const Footer: React.FC = () => {
       <div className="max-w-6xl mx-auto py-12 px-6">
         <div className="text-center">
           <p className="text-sm text-gray-500">
-            © 2024 Eric Saidnawey. All rights reserved.
+            Built with React & Typescript 
+          </p>
+
+          <p className="text-sm text-gray-500">
+            © 2025 Eric Saidnawey. All rights reserved.
           </p>
         </div>
       </div>
