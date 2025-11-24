@@ -461,7 +461,6 @@ const Spotify = () => {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="1">Last month</SelectItem>
                           <SelectItem value="3">Last 3 months</SelectItem>
                           <SelectItem value="6">Last 6 months</SelectItem>
                           <SelectItem value="12">Last year</SelectItem>
