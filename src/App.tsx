@@ -3,6 +3,7 @@ import Layout from './components/Layout';
 import Home from './pages/Home';
 import Resume from './pages/Resume';
 import Analysis from './pages/Analysis';
+import SpotifyAnalytics from './pages/Spotify';
 import './App.css';
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="resume" element={<Resume />} />
           <Route path="analysis" element={<Analysis />} />
+          <Route path="spotify" element={<SpotifyAnalytics />} />
         </Route>
       </Routes>
     </Router>
