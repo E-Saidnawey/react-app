@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { PlayCircle, Music, X, ArrowUpDown } from "lucide-react";
+import { PlayCircle, Music, X, ArrowUpDown, ChevronDown } from "lucide-react";
 import { 
   BarChart, 
   Bar, 
@@ -63,6 +63,7 @@ const Spotify = () => {
   const [topPerGroup, setTopPerGroup] = useState<boolean>(false);
   const [showTopArtists, setShowTopArtists] = useState<boolean>(true);
   const [recentMonths, setRecentMonths] = useState<number>(6); // Default to 6 months
+  const [showFilters, setShowFilters] = useState<boolean>(false); // Collapsed by default
   
   // Table sorting
   const [sortColumn, setSortColumn] = useState<string>('');
@@ -398,7 +399,7 @@ const Spotify = () => {
             </h1>
           </div>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Explore your listening history with powerful analytics and visualizations
+            Get to know me through my music!
           </p>
         </div>
 
@@ -410,6 +411,7 @@ const Spotify = () => {
                 Query Builder
               </h2>
               <p className="text-muted-foreground">Build your Spotify insights query</p>
+              <p className="text-muted-foreground">(For example, if you want to see my top tracks listening, click track)</p>
             </div>
 
             <div className="space-y-6">
@@ -445,147 +447,174 @@ const Spotify = () => {
                 </div>
               )}
 
-              {/* Filters Section */}
+              {/* Filters Section - Collapsible */}
               <div className="space-y-3">
-                <Label className="text-base font-semibold">Filters (Optional)</Label>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {/* Multi-Select Artist Filter */}
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <Label>Artists (Select Multiple)</Label>
-                      <Select 
-                        value={recentMonths.toString()} 
-                        onValueChange={(val) => setRecentMonths(Number(val))}
-                      >
-                        <SelectTrigger className="w-32 h-8 text-xs bg-secondary border-border">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="3">Last 3 months</SelectItem>
-                          <SelectItem value="6">Last 6 months</SelectItem>
-                          <SelectItem value="12">Last year</SelectItem>
-                          <SelectItem value="999">All time</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
+                <div className="flex items-center justify-between">
+                  <Label className="text-base font-semibold">Filters (Optional)</Label>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowFilters(!showFilters)}
+                    className="text-sm"
+                  >
+                    {showFilters ? "Hide Filters" : "Show Filters"}
+                    <ChevronDown className={`ml-2 h-4 w-4 transition-transform ${showFilters ? "rotate-180" : ""}`} />
+                  </Button>
+                </div>
+                
+                {showFilters && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 border border-border rounded-md bg-secondary/50 animate-in slide-in-from-top-2 duration-200">
+                    {/* Multi-Select Artist Filter */}
                     <div className="space-y-2">
-                      <Input
-                        type="text"
-                        value={artistSearch}
-                        onChange={(e) => {
-                          setArtistSearch(e.target.value);
-                          setShowTopArtists(false);
-                        }}
-                        placeholder="Search artists..."
-                        className="bg-secondary"
-                      />
-                      <div className="flex items-center space-x-2 mb-2">
-                        <Checkbox 
-                          id="showTop"
-                          checked={showTopArtists}
-                          onCheckedChange={(checked) => {
-                            setShowTopArtists(checked as boolean);
-                            setArtistSearch('');
-                          }}
-                        />
-                        <Label htmlFor="showTop" className="text-sm cursor-pointer">
-                          Show top 20 artists
-                        </Label>
+                      <div className="flex items-center justify-between">
+                        <Label>Artists (Search or Select Multiple)</Label>
+                        <Select 
+                          value={recentMonths.toString()} 
+                          onValueChange={(val) => setRecentMonths(Number(val))}
+                        >
+                          <SelectTrigger className="w-32 h-8 text-xs bg-secondary border-border">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="1">Last month</SelectItem>
+                            <SelectItem value="3">Last 3 months</SelectItem>
+                            <SelectItem value="6">Last 6 months</SelectItem>
+                            <SelectItem value="12">Last year</SelectItem>
+                            <SelectItem value="999">All time</SelectItem>
+                          </SelectContent>
+                        </Select>
                       </div>
+                      <div className="space-y-2">
+                        <Input
+                          type="text"
+                          value={artistSearch}
+                          onChange={(e) => {
+                            setArtistSearch(e.target.value);
+                            setShowTopArtists(false);
+                          }}
+                          placeholder="Search artists..."
+                          className="bg-secondary"
+                        />
+                        <div className="flex items-center space-x-2 mb-2">
+                          <Checkbox 
+                            id="showTop"
+                            checked={showTopArtists}
+                            onCheckedChange={(checked) => {
+                              setShowTopArtists(checked as boolean);
+                              setArtistSearch('');
+                            }}
+                          />
+                          <Label htmlFor="showTop" className="text-sm cursor-pointer">
+                            Show top 20 artists
+                          </Label>
+                        </div>
+                        <div className="max-h-48 overflow-y-auto border border-border rounded-md bg-secondary p-2 space-y-1">
+                          {filteredArtists.map((artist) => (
+                            <div key={artist} className="flex items-center space-x-2 p-1 hover:bg-accent rounded">
+                              <Checkbox
+                                id={`artist-${artist}`}
+                                checked={selectedArtists.includes(artist)}
+                                onCheckedChange={() => handleToggleArtist(artist)}
+                              />
+                              <Label 
+                                htmlFor={`artist-${artist}`} 
+                                className="text-sm cursor-pointer flex-1"
+                              >
+                                {artist}
+                              </Label>
+                            </div>
+                          ))}
+                        </div>
+                        {selectedArtists.length > 0 && (
+                          <div className="flex flex-wrap gap-1 mt-2">
+                            {selectedArtists.map(artist => (
+                              <Badge key={artist} variant="secondary" className="text-xs flex items-center gap-1 pr-1">
+                                <span>{artist}</span>
+                                <button
+                                  type="button"
+                                  className="ml-1 hover:text-destructive focus:outline-none inline-flex items-center justify-center"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    e.preventDefault();
+                                    handleToggleArtist(artist);
+                                  }}
+                                  aria-label={`Remove ${artist}`}
+                                >
+                                  <X className="h-3 w-3" />
+                                </button>
+                              </Badge>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Multi-Select Year Filter */}
+                    <div className="space-y-2">
+                      <Label>Years (Select Multiple)</Label>
                       <div className="max-h-48 overflow-y-auto border border-border rounded-md bg-secondary p-2 space-y-1">
-                        {filteredArtists.map((artist) => (
-                          <div key={artist} className="flex items-center space-x-2 p-1 hover:bg-accent rounded">
+                        {years.map((year) => (
+                          <div key={year} className="flex items-center space-x-2 p-1 hover:bg-accent rounded">
                             <Checkbox
-                              id={`artist-${artist}`}
-                              checked={selectedArtists.includes(artist)}
-                              onCheckedChange={() => handleToggleArtist(artist)}
+                              id={`year-${year}`}
+                              checked={selectedYears.includes(year)}
+                              onCheckedChange={() => handleToggleYear(year)}
                             />
                             <Label 
-                              htmlFor={`artist-${artist}`} 
+                              htmlFor={`year-${year}`} 
                               className="text-sm cursor-pointer flex-1"
                             >
-                              {artist}
+                              {year}
                             </Label>
                           </div>
                         ))}
                       </div>
-                      {selectedArtists.length > 0 && (
+                      {selectedYears.length > 0 && (
                         <div className="flex flex-wrap gap-1 mt-2">
-                          {selectedArtists.map(artist => (
-                            <Badge key={artist} variant="secondary" className="text-xs">
-                              <span>{artist}</span>
+                          {selectedYears.map(year => (
+                            <Badge key={year} variant="secondary" className="text-xs flex items-center gap-1 pr-1">
+                              <span>{year}</span>
                               <button
                                 type="button"
-                                className="ml-1 hover:text-destructive focus:outline-none"
-                                onClick={() => setSelectedArtists(prev => prev.filter(a => a !== artist))}
-                                aria-label={`Remove ${artist}`}
-                                >
-                                    <X className="h-3 w-3"/>
-                                </button>
+                                className="ml-1 hover:text-destructive focus:outline-none inline-flex items-center justify-center"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  e.preventDefault();
+                                  handleToggleYear(year);
+                                }}
+                                aria-label={`Remove ${year}`}
+                              >
+                                <X className="h-3 w-3" />
+                              </button>
                             </Badge>
                           ))}
                         </div>
                       )}
                     </div>
                   </div>
+                )}
+              </div>
 
-                  {/* Multi-Select Year Filter */}
-                  <div className="space-y-2">
-                    <Label>Years (Select Multiple)</Label>
-                    <div className="max-h-48 overflow-y-auto border border-border rounded-md bg-secondary p-2 space-y-1">
-                      {years.map((year) => (
-                        <div key={year} className="flex items-center space-x-2 p-1 hover:bg-accent rounded">
-                          <Checkbox
-                            id={`year-${year}`}
-                            checked={selectedYears.includes(year)}
-                            onCheckedChange={() => handleToggleYear(year)}
-                          />
-                          <Label 
-                            htmlFor={`year-${year}`} 
-                            className="text-sm cursor-pointer flex-1"
-                          >
-                            {year}
-                          </Label>
-                        </div>
-                      ))}
-                    </div>
-                    {selectedYears.length > 0 && (
-                      <div className="flex flex-wrap gap-1 mt-2">
-                        {selectedYears.map(year => (
-                          <Badge key={year} variant="secondary" className="text-xs">
-                            <span>{year}</span>
-                            <button
-                                type="button"
-                                className="ml-1 hover:text-destructive focus:outline-none"
-                                onClick={() => setSelectedYears(prev => prev.filter(a => a !== year))}
-                                aria-label={`Remove ${year}`}
-                                >
-                                    <X className="h-3 w-3"/>
-                                </button>
-                          </Badge>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Limit */}
-                  <div className="space-y-2">
-                    <Label htmlFor="limit">Limit (1-50)</Label>
-                    <Input
-                      id="limit"
-                      type="number"
-                      value={limit}
-                      onChange={(e) => handleLimitChange(e.target.value)}
-                      onBlur={handleLimitBlur}
-                      min="1"
-                      max="50"
-                      className="bg-secondary"
-                    />
-                    {limitError && (
-                      <p className="text-sm text-red-500">{limitError}</p>
-                    )}
-                  </div>
+              {/* Limit Section - Separate and Always Visible */}
+              <div className="space-y-2">
+                <Label htmlFor="limit" className="text-base font-semibold">Results Limit</Label>
+                <div className="flex items-center gap-4">
+                  <Input
+                    id="limit"
+                    type="number"
+                    value={limit}
+                    onChange={(e) => handleLimitChange(e.target.value)}
+                    onBlur={handleLimitBlur}
+                    min="1"
+                    max="50"
+                    className="bg-secondary w-32"
+                  />
+                  <span className="text-sm text-muted-foreground">Maximum results to display (1-50)</span>
                 </div>
+                {limitError && (
+                  <p className="text-sm text-red-500">{limitError}</p>
+                )}
               </div>
             </div>
 
