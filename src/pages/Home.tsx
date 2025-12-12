@@ -149,6 +149,7 @@ const Home: React.FC = () => {
               Get In Touch
             </a>
             <Link
+              onClick={() => window.scrollTo(0, 0)}
               to="/resume"
               className="inline-flex items-center justify-center px-8 py-4 border-2 border-gray-900 text-gray-900 font-medium hover:bg-gray-900 hover:text-white transition-colors duration-200"
             >
