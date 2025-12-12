@@ -39,9 +39,9 @@ const Analysis: React.FC = () => {
     },
     {
       id: '3',
-      title: 'Atlanta Summer Heat Trend Pt 2',
+      title: 'Atlanta Summer Heat using Exponential Smoothing',
       description: 'Created an exponential smoothing model to determine if the Atlanta summer has gotten warmer over the past 20 years.',
-      notebookPath: '/notebooks/TrendAtlantaSummer2.pdf',
+      notebookPath: '/notebooks/ExponentialSmoothing_Atlanta_Summers.pdf',
       notebookType: 'rmd',
       tags: ['R', 'Exponential Smoothing', 'Trending', 'Multiplicative Seasonality', 'Time Series', 'Decomposition'],
       createdAt: '2025-09-11',
@@ -59,14 +59,24 @@ const Analysis: React.FC = () => {
     }, 
     {
       id: '5',
-      title: 'K Nearest Neighbors and K Means Analysis in R',
-      description: 'Created a KNN model to determine crime rate data in a city with multiple components. Additionally, use K means to determine flower type in iris data set',
-      notebookPath: '/notebooks/K_Nearest_Neighbors.pdf',
+      title: 'K Nearest Neighbors Analysis of Credit Card Data',
+      description: 'Created a KNN model to determine response to credit card application.',
+      notebookPath: '/notebooks/K-Nearest-Neighbors.pdf',
       notebookType: 'rmd',
-      tags: ['R', 'kknn', 'kmeans', 'Cross-Validation', 'Data Preparation'],
+      tags: ['R', 'kknn', 'Cross-Validation', 'Data Preparation'],
       createdAt: '2025-08-30',
       thumbnail: '/images/sentiment-analysis-thumb.png'
     }, 
+        {
+      id: '6',
+      title: 'KMeans Analysis of the Iris dataset',
+      description: 'Use K means to determine flower type in iris data set',
+      notebookPath: '/notebooks/Kmeans.pdf',
+      notebookType: 'rmd',
+      tags: ['R', 'kmeans', 'Data Preparation'],
+      createdAt: '2025-08-30',
+      thumbnail: '/images/sentiment-analysis-thumb.png'
+    }
   ];
 
   const handleViewNotebook = (project: Project) => {
