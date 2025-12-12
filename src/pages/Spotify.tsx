@@ -59,7 +59,7 @@ const Spotify = () => {
   const [selectedYears, setSelectedYears] = useState<number[]>([]);
   const [groupByColumns, setGroupByColumns] = useState<string[]>([]);
   const [artistSearch, setArtistSearch] = useState<string>('');
-  const [limit, setLimit] = useState<number | string>(50);
+  const [limit, setLimit] = useState<number | string>(10);
   const [topPerGroup, setTopPerGroup] = useState<boolean>(false);
   const [showTopArtists, setShowTopArtists] = useState<boolean>(true);
   const [recentMonths, setRecentMonths] = useState<number>(6); // Default to 6 months

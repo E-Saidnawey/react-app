@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Briefcase, GraduationCap, Code } from "lucide-react";
+import { Mail, Phone, MapPin, Briefcase, GraduationCap, Code, Download} from "lucide-react";
 
 const Resume: React.FC = () => {
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
@@ -21,14 +21,15 @@ const Resume: React.FC = () => {
       "MATLAB": "Numerical computing and simulation using MATLAB. Experience with signal processing, automation tasks, modeling packages, and data visualization.",
       "Statistical Analysis": "Hypothesis testing, advanced regression analysis, data massaging, experimental design, and statistical modeling for data-driven insights.",
       "Data Visualization": "Creating compelling visualizations using matplotlib, ggplot2, matlab auto powerpoint features, and Tableau for effective data communication.",
-      "Big Data Engineering": "Managing terabytes of data"
+      "Big Data Engineering": "Managing terabytes of data",
+      "Machine Learning": "Machine Learning"
     };
     return descriptions[skill] || "Click to learn more about this skill.";
   };
 
   const getClassDescription = (className: string) => {
     const descriptions: { [key: string]: string } = {
-      "Introduction to Analytics Modeling": "An introduction to important and commonly used models in Analytics, as well as aspects of the modeling process. Topics include learning SVM, Classification, Advanced Regression, Advanced Data Preparation, Time Series Models, and Optimization. This course is designed to gain an intuitive understanding of fundamental models and methods of analytics and practice how to implement them using common industry tools like R",
+      "Introduction to Analytics Modeling": "An introduction to important and commonly used models in Analytics, as well as aspects of the modeling process. Topics include learning SVM, Classification, Advanced Regression, Advanced Data Preparation, Time Series Models, and Optimization. This course is designed to gain an intuitive understanding of fundamental models and methods of analytics and practice how to implement them using common industry tools like R and Python",
       "Introduction to Computing for Data Analysis": "A hands-on introduction to programming techniques relevant to data analysis and machine learning.",
       "Engineering Computations": "Computational thinking: modeling and simulation practices. Numerical derivatives. Initial-value problems. Solving differential equations, direction fields, the phase plane. Geometry of linear algebra; eigenvalues and eigenvectors. Fourier analysis",
       "Linear Algebra": "Linear equations, matrices, inverses, and determinants. Vector spaces, rank, eigenvalues, and diagonalization. Applications to geometry and ordinary differential equations",
@@ -51,22 +52,20 @@ const Resume: React.FC = () => {
     location: "New York City, NY | Los Angeles, CA",
     about: {
       title: "About Me",
-      text: `I’m a Data Analyst and Systems Engineer passionate about building data-driven solutions 
-      that improve technical performance and decision-making. My work bridges engineering rigor with 
-      analytical insight — from predictive modeling and anomaly detection to full-stack web development.`
+      work_text: `Hi! I’m a Data Analyst and Systems Engineer passionate about building data-driven solutions 
+      that improve technical performance and decision-making. I have 3+ years experience building analytical systems — from predictive modeling and anomaly detection to full-stack web development.`,
+      personal_text: `Outside of work I enjoy cooking (where I track every ingredient to the gram... can't escape data) and spending time outdoors. Recently that has taken the shape of biking, camping, and skiing :) `
     },
     experience: [
       {
-        company: "Northrop Grumman Corporation - SBIRS Line-of-Sight (LOS)",
-        position: "Systems Engineer",
-        duration: "August 2022 - Present",
-        description: "Lead data analysis projects and developed predictive models for program success.",
+        company: "Northrop Grumman Corporation, SBIRS Advanced Tool Developement Team (ATD) ",
+        position: "Product Developer",
+        duration: "June 2024 - Present",
+        description: "Product Developer on a team of 3 to create a full stack webapp to support analysts.",
         achievements: [
-          "Analyze and create critical trending packages using MATLAB and Python on SBIRS satellites. Perform weekly diagnostic analysis on big data metrics using high rate telemetry and report findings to the Chief Engineer",
-          "Built and applied nonlinear regression models on 15+ components, identifying key performance trends that forecast an improved system reliability by 30% and reduce labor costs.",
-          "Principal investigator of a root-cause investigation, delivering a semi-annual comprehensive report to a technical and non-technical customer base, helping the customer make data-driven mission decisions.",
-          "Organized and hosted a satellite performance meeting for 60 people, including Space Force customers and NGC upper management. Presented data trend visualizations of the Line-Of-Sight performance to all attendees.",
-          "Awards: 2x SBIRS Employee of the month, 1x Pathways Engineer of the month"
+          "Architected and deployed automated analysis pipeline integrating Python, MATLAB, and PostgreSQL, automating anomaly detection workflow and reducing engineer response time by 85% (from 1 week to 1 day)",
+          "Product Developer of automated anomaly report generator. Developing anomaly detection methods with MATLAB and creating user friendly way to log occurrences of sensative data in PostgreSQL databases.",
+          "Product Representative between System Performance, Chief Engineer, Management, and Product developers."
         ]
       },
       {
@@ -75,19 +74,22 @@ const Resume: React.FC = () => {
         duration: "June 2023 - Present",
         description: "Analyzed large datasets, created testing plans, and developed trending procesees .",
         achievements: [
-          "Conducted data mining and trend analysis on engineering datasets, creating 6 diagnostic tools using algorithms such as k-means clustering that uncovered new system behaviors and streamlined analyst workflows",
-          "Developing and debugging algorithms to perform quaternion calculations and optical projections. Created 3 new diagnostic trends and automated scripts to deliver all necessary analysis to the Responsible Engineer",
+          "Conducted data mining and trend analysis on engineering datasets, creating tools and checklists for junior engineers to verify against data.",
+          "Applied unsupervised ML (K-means, DBSCAN) to 10M+ telemetry records, improving outlier detection precision by 40%, and the model reported accuracy by 20%.",
           "Responsible Engineer for Point Source Characterization, LOS Knowledge, and Encoder Calibration thermal vacuum (TVAC) testing. Assisted in design and tests with resiliency and efficiency, saving money and time."
         ]
       },
       {
-        company: "Northrop Grumman Corporation, SBIRS Advanced Tool Developement Team (ATD) ",
-        position: "Product Developer",
-        duration: "June 2024 - Present",
-        description: "Work on a team of 3 to create a full stack webapp to support analysts.",
+        company: "Northrop Grumman Corporation - SBIRS Line-of-Sight (LOS)",
+        position: "Systems Engineer",
+        duration: "August 2022 - Present",
+        description: "Lead data analysis projects and developed predictive models for program success.",
         achievements: [
-          "Designed an automated anomaly detection pipeline using Python, MATLAB, and PostgreSQL; built reporting dashboards in React + TypeScript, reducing daily detection time and analysis report time for engineers.",
-          "Product Developer of automated anomaly report generator. Developing anomaly detection methods with MATLAB, logging occurrences in PostgreSQL databases, and hosting reports using React + Typescript.",
+          "Principal investigator of a root-cause investigation about a sensative topic. Host a semi-annual working group and deliver a comprehensive report to technical and non-technical customers, helping the customer make data-driven mission decisions.",
+          "Analyze and create critical trending packages using MATLAB and Python on SBIRS satellites. Perform weekly root-cause analysis on high rate telemetry and report findings to the Chief Engineer",
+          "Built and applied nonlinear regression models on 15+ components, identifying key performance trends that forecast an improved system reliability by 30% and reduce labor costs.",
+          "Organized and hosted a satellite performance meeting for 60 people, including Space Force customers and NGC upper management. Presented data trend visualizations of the Line-Of-Sight performance to all attendees.",
+          "Awards: 2x SBIRS Employee of the month, 1x Pathways Engineer of the month"
         ]
       }
     ],
@@ -134,22 +136,36 @@ const Resume: React.FC = () => {
         <h1 className="mb-3 text-4xl font-bold text-foreground">{resumeData.name}</h1>
         <p className="text-lg text-muted-foreground">{resumeData.title}</p>
         <p className="mt-2 text-sm text-muted-foreground">
-          <Mail className="inline w-4 h-4 mr-1 text-accent" /> {resumeData.email} &nbsp;|&nbsp;
-          <Phone className="inline w-4 h-4 mr-1 text-accent" /> {resumeData.phone} &nbsp;|&nbsp;
-          <MapPin className="inline w-4 h-4 mr-1 text-accent" /> {resumeData.location}
+          <Mail className="inline w-4 h-4 mr-1 text-foreground" /> {resumeData.email} &nbsp;|&nbsp;
+          <Phone className="inline w-4 h-4 mr-1 text-foreground" /> {resumeData.phone} &nbsp;|&nbsp;
+          <MapPin className="inline w-4 h-4 mr-1 text-foreground" /> {resumeData.location}
         </p>
+
+        {/* Download Button */}
+<div className="mt-6">
+  <a
+    href="/path-to-your-resume.pdf"
+    download="Eric_Saidnawey_Resume.pdf"
+    className="inline-flex items-center gap-2 px-6 py-3 bg-gray-200 text-black font-medium rounded-lg hover:bg-gray-400 transition-colors shadow-sm"
+  >
+    <Download className="w-5 h-5" />
+    Download Resume
+  </a>
+</div>
       </header>
 
       {/* About */}
       <section className="mb-10">
         <h2 className="mb-4 text-2xl font-semibold text-foreground">{resumeData.about.title}</h2>
-        <p className="text-muted-foreground leading-relaxed">{resumeData.about.text}</p>
+        <p className="text-muted-foreground leading-relaxed">{resumeData.about.work_text}</p>
+        <br/>
+        <p className="text-muted-foreground leading-relaxed">{resumeData.about.personal_text}</p>
       </section>
 
       {/* Experience */}
       <section className="mb-10">
         <div className="mb-4 flex items-center gap-2">
-          <Briefcase className="h-5 w-5 text-accent" />
+          <Briefcase className="h-5 w-5 text-foreground" />
           <h2 className="text-2xl font-semibold text-foreground">Experience</h2>
         </div>
         <div className="space-y-6">
@@ -177,7 +193,7 @@ const Resume: React.FC = () => {
       {/* Education */}
       <section className="mb-10">
         <div className="mb-4 flex items-center gap-2">
-          <GraduationCap className="h-5 w-5 text-accent" />
+          <GraduationCap className="h-5 w-5 text-foreground" />
           <h2 className="text-2xl font-semibold text-foreground">Education</h2>
         </div>
         <div className="space-y-6">
@@ -216,7 +232,7 @@ const Resume: React.FC = () => {
       {/* Skills */}
       <section className="mb-10">
         <div className="mb-4 flex items-center gap-2">
-          <Code className="h-5 w-5 text-accent" />
+          <Code className="h-5 w-5 text-foreground" />
           <h2 className="text-2xl font-semibold text-foreground">Skills</h2>
         </div>
         <div className="flex flex-wrap gap-2">

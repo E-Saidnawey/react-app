@@ -29,26 +29,16 @@ const Analysis: React.FC = () => {
     },
     {
       id: '2',
-      title: 'Advanced Regression Analysis',
-      description: 'Using stepwise regression, Lasso regression, and Elastic Net regression to analyze US Crime data set.',
-      notebookPath: '/notebooks/AdvancedRegressionAnalysis.pdf',
-      notebookType: 'rmd',
-      tags: ['R', 'BIC', 'AIC', 'Stepwise Regression', 'Lasso Regression', 'Elastic Net Regression'],
-      createdAt: '2024-10-10',
-      thumbnail: '/images/climate-dashboard-thumb.png'
-    },
-    {
-      id: '3',
-      title: 'Atlanta Summer Heat Trend Pt 1',
+      title: 'Atlanta Summer Heat Trend using CUSUM',
       description: 'Using a CUSUM approach to identify when unofficial summer ends in Atlanta and if the summers have gotten warmer in the past 20 years',
-      notebookPath: '/notebooks/TrendAtlantaSummers.pdf',
+      notebookPath: '/notebooks/Atlanta_Summer_Temerature_CUSUM.pdf',
       notebookType: 'rmd',
       tags: ['R', 'CUSUM', 'Climate Analysis', 'Data Preparation'],
       createdAt: '2025-09-06',
       thumbnail: '/images/customer-segmentation-thumb.png'
     },
     {
-      id: '4',
+      id: '3',
       title: 'Atlanta Summer Heat Trend Pt 2',
       description: 'Created an exponential smoothing model to determine if the Atlanta summer has gotten warmer over the past 20 years.',
       notebookPath: '/notebooks/TrendAtlantaSummer2.pdf',
@@ -58,7 +48,7 @@ const Analysis: React.FC = () => {
       thumbnail: '/images/sales-forecast-thumb.png'
     },
     {
-      id: '5',
+      id: '4',
       title: 'SimPy Airport Simulation ',
       description: 'Use Pythons SimPy to simulate an airport that has a queue behind the ticket counter and the security check',
       notebookPath: '/notebooks/SimpyTutorial.pdf',
@@ -66,19 +56,9 @@ const Analysis: React.FC = () => {
       tags: ['Python', 'SimPy', 'Classes', 'Simulation Analysis'],
       createdAt: '2025-10-19',
       thumbnail: '/images/ab-testing-thumb.png'
-    },
-    {
-      id: '6',
-      title: 'Regression Trees and Random Forests',
-      description: 'Using Regression Trees and Random Forest models to analyze crime rate data in various states.',
-      notebookPath: '/notebooks/RegressionTrees_AndForests.pdf',
-      notebookType: 'ipynb',
-      tags: ['R', 'Regression Tree', 'Random Forest', 'Crime Rate Analysis'],
-      createdAt: '2025-10-03',
-      thumbnail: '/images/sentiment-analysis-thumb.png'
     }, 
     {
-      id: '7',
+      id: '5',
       title: 'K Nearest Neighbors and K Means Analysis in R',
       description: 'Created a KNN model to determine crime rate data in a city with multiple components. Additionally, use K means to determine flower type in iris data set',
       notebookPath: '/notebooks/K_Nearest_Neighbors.pdf',
