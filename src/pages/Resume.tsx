@@ -144,8 +144,8 @@ const Resume: React.FC = () => {
         {/* Download Button */}
 <div className="mt-6">
   <a
-    href="/Eric_Saidnawey_Resume.pdf"
-    download="Eric_Saidnawey_Resume.pdf"
+    href="/EricSaidnaweyResume.pdf"
+    download="EricSaidnaweyResume.pdf"
     className="inline-flex items-center gap-2 px-6 py-3 bg-gray-200 text-black font-medium rounded-lg hover:bg-gray-400 transition-colors shadow-sm"
   >
     <Download className="w-5 h-5" />
