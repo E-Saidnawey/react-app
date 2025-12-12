@@ -129,7 +129,7 @@ const Resume: React.FC = () => {
   };
 
   return (
-  <div className="min-h-screen bg-background py-12">
+  <div className="min-h-screen bg-backgroDownloadund py-12">
     <div className="container mx-auto max-w-4xl px-4">
       {/* Header */}
       <header className="mb-12 text-center">
@@ -144,7 +144,7 @@ const Resume: React.FC = () => {
         {/* Download Button */}
 <div className="mt-6">
   <a
-    href="/path-to-your-resume.pdf"
+    href="/Eric_Saidnawey_Resume.pdf"
     download="Eric_Saidnawey_Resume.pdf"
     className="inline-flex items-center gap-2 px-6 py-3 bg-gray-200 text-black font-medium rounded-lg hover:bg-gray-400 transition-colors shadow-sm"
   >
