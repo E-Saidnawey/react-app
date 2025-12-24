@@ -6,7 +6,7 @@ interface Project {
   title: string;
   description: string;
   notebookPath: string;
-  notebookType: 'ipynb' | 'rmd';
+  notebookType: 'ipynb' | 'rmd' | 'py';
   tags: string[];
   createdAt: string;
   thumbnail?: string;
@@ -19,8 +19,18 @@ const Analysis: React.FC = () => {
   const projects: Project[] = [
     {
       id: '1',
+      title: 'Hurricane Catastrophe Model',
+      description: 'Monte Carlo Simulation of hurricane coverage risk, using python to perform negative binomial and log normal distribution analysis, damage equations, report generation.',
+      notebookPath: '/notebooks/Hurricane_Model.pdf',
+      notebookType: 'py',
+      tags: ['Monte Carlo Analysis', 'Risk Analysis', 'Negative Binomial', 'Log Normal'],
+      createdAt: '2025-12-23',
+      thumbnail: '/images/plant-analysis-thumb.png'
+    },
+    {
+      id: '2',
       title: 'Principle Component Analysis',
-      description: 'Analysis of a US Crime data set, using principle component analysis and regression with R packages prcomp and lm ',
+      description: 'Analysis of a US Crime data set, using principle component analysis and regression with R packages prcomp and lm.',
       notebookPath: '/notebooks/PCA_Analysis.pdf',
       notebookType: 'rmd',
       tags: ['R', 'PCA', 'prcomp', 'Linear Regression'],
@@ -28,7 +38,7 @@ const Analysis: React.FC = () => {
       thumbnail: '/images/plant-analysis-thumb.png'
     },
     {
-      id: '2',
+      id: '3',
       title: 'Atlanta Summer Heat Trend using CUSUM',
       description: 'Using a CUSUM approach to identify when unofficial summer ends in Atlanta and if the summers have gotten warmer in the past 20 years',
       notebookPath: '/notebooks/Atlanta_Summer_Temerature_CUSUM.pdf',
@@ -38,7 +48,7 @@ const Analysis: React.FC = () => {
       thumbnail: '/images/customer-segmentation-thumb.png'
     },
     {
-      id: '3',
+      id: '4',
       title: 'Atlanta Summer Heat using Exponential Smoothing',
       description: 'Created an exponential smoothing model to determine if the Atlanta summer has gotten warmer over the past 20 years.',
       notebookPath: '/notebooks/ExponentialSmoothing_Atlanta_Summers.pdf',
@@ -48,7 +58,7 @@ const Analysis: React.FC = () => {
       thumbnail: '/images/sales-forecast-thumb.png'
     },
     {
-      id: '4',
+      id: '5',
       title: 'SimPy Airport Simulation ',
       description: 'Use Pythons SimPy to simulate an airport that has a queue behind the ticket counter and the security check',
       notebookPath: '/notebooks/SimpyTutorial.pdf',
@@ -58,7 +68,7 @@ const Analysis: React.FC = () => {
       thumbnail: '/images/ab-testing-thumb.png'
     }, 
     {
-      id: '5',
+      id: '6',
       title: 'K Nearest Neighbors Analysis of Credit Card Data',
       description: 'Created a KNN model to determine response to credit card application.',
       notebookPath: '/notebooks/K-Nearest-Neighbors.pdf',
@@ -68,7 +78,7 @@ const Analysis: React.FC = () => {
       thumbnail: '/images/sentiment-analysis-thumb.png'
     }, 
         {
-      id: '6',
+      id: '7',
       title: 'KMeans Analysis of the Iris dataset',
       description: 'Use K means to determine flower type in iris data set',
       notebookPath: '/notebooks/Kmeans.pdf',
@@ -203,7 +213,7 @@ const Analysis: React.FC = () => {
                   className="inline-flex items-center px-8 py-3 bg-gray-900 text-white font-medium hover:bg-gray-800 transition-colors duration-200"
                 >
                   <ExternalLink className="w-4 h-4 mr-2" />
-                  Open Notebook
+                  Open Analysis
                 </a>
                 <button
                   onClick={() => setSelectedProject(null)}
