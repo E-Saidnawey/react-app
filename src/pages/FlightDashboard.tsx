@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
-import { io, Socket } from 'socket.io-client';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { io } from 'socket.io-client';
 import FlightTable from '../components/FlightTable';
-import { RotateCcw, Clock as ClockIcon, AlertTriangle, Activity, Layers } from 'lucide-react';
+import { Clock as ClockIcon, AlertTriangle, Activity, Layers } from 'lucide-react';
 
 // --- Interfaces ---
 interface FlightUpdate {
@@ -32,9 +32,7 @@ const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:3001';
 
 const FlightDashboard: React.FC = () => {
   // --- State ---
-  const [socket, setSocket] = useState<Socket | null>(null);
   const [activeFlights, setActiveFlights] = useState<FlightUpdate[]>([]);
-  const [isStreaming, setIsStreaming] = useState(false);
   const [streamStatus, setStreamStatus] = useState<StreamStatus | null>(null);
   const [connected, setConnected] = useState(false);
   
@@ -87,7 +85,6 @@ const FlightDashboard: React.FC = () => {
 
     newSocket.on('stream_status', (status: StreamStatus) => {
       setStreamStatus(status);
-      setIsStreaming(status.is_streaming);
     });
 
     newSocket.on('stream_restart', () => {
@@ -99,8 +96,6 @@ const FlightDashboard: React.FC = () => {
       setActiveFlights([]);
       setSimulatedTime(null);
     });
-
-    setSocket(newSocket);
 
     return () => {
       newSocket.close();
