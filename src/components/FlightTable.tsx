@@ -84,7 +84,7 @@ const FlightTable: React.FC<FlightTableProps> = ({ flights = [] }) => {
   };
 
   const getStatusIcon = (status: string, delay: number) => {
-    if (status === 'departed') {
+    if (status === 'departed' || status === 'arrived') {
       return <CheckCircle className="w-4 h-4 text-green-400" />;
     } else if (delay > 15) {
       return <AlertCircle className="w-4 h-4 text-red-400" />;
@@ -106,6 +106,9 @@ const FlightTable: React.FC<FlightTableProps> = ({ flights = [] }) => {
           <tr className="border-b border-slate-800">
             <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
               Flight #
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
+              Event
             </th>
             <th className="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
               Route
@@ -149,6 +152,17 @@ const FlightTable: React.FC<FlightTableProps> = ({ flights = [] }) => {
                     </div>
                   </div>
                 </div>
+              </td>
+
+              {/* Event Type */}
+              <td className="px-4 py-3 whitespace-nowrap">
+                <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                  flight.event_type === 'departure' 
+                    ? 'bg-blue-900/50 text-blue-300 border border-blue-700' 
+                    : 'bg-purple-900/50 text-purple-300 border border-purple-700'
+                }`}>
+                  {flight.event_type === 'departure' ? '🛫 Departure' : '🛬 Arrival'}
+                </span>
               </td>
 
               {/* Route */}

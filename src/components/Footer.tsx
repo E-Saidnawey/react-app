@@ -10,7 +10,7 @@ const Footer: React.FC = () => {
           </p>
 
           <p className="text-sm text-gray-500">
-            © 2025 Eric Saidnawey. All rights reserved.
+            © 2026 Eric Saidnawey. All rights reserved.
           </p>
         </div>
       </div>

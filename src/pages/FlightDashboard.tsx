@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { io, Socket } from 'socket.io-client';
 import FlightTable from '../components/FlightTable';
-import StatsPanel from '../components/StatsPanel';
-import { Play, Pause, RotateCcw } from 'lucide-react';
+import { RotateCcw, Clock as ClockIcon, AlertTriangle, Activity, Layers } from 'lucide-react';
 
+// --- Interfaces ---
 interface FlightUpdate {
   flight_number: string;
   tail_number: string;
@@ -31,13 +31,19 @@ interface StreamStatus {
 const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:3001';
 
 const FlightDashboard: React.FC = () => {
+  // --- State ---
   const [socket, setSocket] = useState<Socket | null>(null);
   const [activeFlights, setActiveFlights] = useState<FlightUpdate[]>([]);
   const [isStreaming, setIsStreaming] = useState(false);
   const [streamStatus, setStreamStatus] = useState<StreamStatus | null>(null);
   const [connected, setConnected] = useState(false);
+  
+  // New State for Tabs & Simulation Time
+  const [activeTab, setActiveTab] = useState<string>('Delayed');
+  const [simulatedTime, setSimulatedTime] = useState<Date | null>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  // Initialize socket connection
+  // --- Socket Connection ---
   useEffect(() => {
     const newSocket = io(SOCKET_URL, {
       reconnection: true,
@@ -56,7 +62,10 @@ const FlightDashboard: React.FC = () => {
     });
 
     newSocket.on('telemetry_update', (update: FlightUpdate) => {
-      // Update or add flight to active flights
+      // 1. Update Simulation Clock
+      setSimulatedTime(new Date(update.update_time));
+
+      // 2. Update Active Flights List
       setActiveFlights(prev => {
         const index = prev.findIndex(
           f => f.flight_number === update.flight_number && f.carrier === update.carrier
@@ -81,20 +90,14 @@ const FlightDashboard: React.FC = () => {
       setIsStreaming(status.is_streaming);
     });
 
-    newSocket.on('stream_complete', () => {
-      setIsStreaming(false);
-      console.log('✓ Stream complete');
-    });
-
-    newSocket.on('stream_restart', (data: { message: string; total_updates: number }) => {
-      console.log('↻ Stream restarting:', data.message);
-      setActiveFlights([]);
-      // Keep isStreaming = true, stream continues automatically
+    newSocket.on('stream_restart', () => {
+      // Clear flights on auto-restart so we don't see old data
+      setActiveFlights([]); 
     });
 
     newSocket.on('stream_reset', () => {
       setActiveFlights([]);
-      console.log('↻ Stream reset');
+      setSimulatedTime(null);
     });
 
     setSocket(newSocket);
@@ -104,141 +107,218 @@ const FlightDashboard: React.FC = () => {
     };
   }, []);
 
-  const handleStartStream = useCallback(() => {
-    if (socket) {
-      socket.emit('start_stream');
-      setIsStreaming(true);
-    }
-  }, [socket]);
+  // --- Computed Data ---
 
-  const handlePauseStream = useCallback(() => {
-    if (socket) {
-      socket.emit('pause_stream');
-      setIsStreaming(false);
-    }
-  }, [socket]);
+  // 1. Unique Carriers (for Tabs)
+  const uniqueCarriers = useMemo(() => {
+    const carriers = new Set(activeFlights.map(f => f.carrier));
+    return Array.from(carriers).sort();
+  }, [activeFlights]);
 
-  const handleResetStream = useCallback(() => {
-    if (socket) {
-      socket.emit('reset_stream');
-      setIsStreaming(false);
-      setActiveFlights([]);
-    }
-  }, [socket]);
+  // 2. Statistics (Fixes Negative Avg Issue)
+  const stats = useMemo(() => {
+    const delayedFlights = activeFlights.filter(f => f.current_delay_minutes > 0);
+    const totalDelay = delayedFlights.reduce((acc, f) => acc + f.current_delay_minutes, 0);
+    
+    return {
+      total: activeFlights.length,
+      delayed: delayedFlights.length,
+      avgDelay: delayedFlights.length > 0 ? (totalDelay / delayedFlights.length).toFixed(1) : '0.0',
+      highRisk: activeFlights.filter(f => f.risk_level === 'High').length
+    };
+  }, [activeFlights]);
 
-  // Group flights by carrier
-  const flightsByCarrier = activeFlights.reduce((acc, flight) => {
-    if (!acc[flight.carrier]) {
-      acc[flight.carrier] = [];
-    }
-    acc[flight.carrier].push(flight);
-    return acc;
-  }, {} as Record<string, FlightUpdate[]>);
+  // 3. Filtered Flights based on Active Tab
+  const filteredFlights = useMemo(() => {
+    let filtered = [];
 
-  const carriers = Object.keys(flightsByCarrier).sort();
+    switch (activeTab) {
+      case 'Delayed':
+        filtered = activeFlights.filter(f => f.current_delay_minutes > 0);
+        break;
+      case 'High Risk':
+        filtered = activeFlights.filter(f => f.risk_level === 'High');
+        break;
+      case 'All':
+        filtered = activeFlights;
+        break;
+      default:
+        // Assume activeTab is a Carrier Name
+        filtered = activeFlights.filter(f => f.carrier === activeTab);
+        break;
+    }
+
+    // Always sort by delay descending (worst first)
+    return filtered.sort((a, b) => b.current_delay_minutes - a.current_delay_minutes);
+  }, [activeFlights, activeTab]);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
-      {/* Header */}
-      <div className="border-b border-slate-800 bg-slate-900/50 backdrop-blur">
+    <div className="min-h-screen bg-slate-950 text-white flex flex-col">
+      {/* --- HEADER --- */}
+      <div className="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-20">
         <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            
+            {/* Title & Clock */}
             <div>
-              <h1 className="text-2xl font-bold text-white">
-                Flight Operations Dashboard
+              <h1 className="text-xl font-bold text-white flex items-center gap-2">
+                Flight Operations Center
+                <div className={`w-2 h-2 rounded-full ${connected ? 'bg-green-500' : 'bg-red-500'} animate-pulse`} />
               </h1>
-              <p className="text-sm text-slate-400 mt-1">
-                Real-time delay cascade monitoring
-              </p>
+              
+              <div className="flex items-center gap-4 mt-1 text-sm text-slate-400 font-mono">
+                <div className="flex items-center gap-1.5">
+                  <ClockIcon className="w-4 h-4 text-blue-400" />
+                  <span className="text-slate-200">
+                    {simulatedTime 
+                      ? simulatedTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) 
+                      : '--:--:--'}
+                  </span>
+                </div>
+                {streamStatus && (
+                  <span className="text-xs bg-slate-800 px-2 py-0.5 rounded text-blue-200 border border-slate-700">
+                    {streamStatus.replay_speed}x Speed
+                  </span>
+                )}
+              </div>
             </div>
             
-            {/* Connection Status */}
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <div className={`w-2 h-2 rounded-full ${connected ? 'bg-green-500' : 'bg-red-500'}`} />
-                <span className="text-sm text-slate-400">
-                  {connected ? 'Connected' : 'Disconnected'}
-                </span>
-              </div>
-              
-              {/* Stream Controls */}
-              <div className="flex gap-2">
-                {!isStreaming ? (
-                  <button
-                    onClick={handleStartStream}
-                    disabled={!connected}
-                    className="px-4 py-2 bg-green-600 hover:bg-green-700 disabled:bg-slate-700 disabled:cursor-not-allowed rounded-lg flex items-center gap-2 transition-colors"
-                  >
-                    <Play className="w-4 h-4" />
-                    Start Stream
-                  </button>
-                ) : (
-                  <button
-                    onClick={handlePauseStream}
-                    className="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 rounded-lg flex items-center gap-2 transition-colors"
-                  >
-                    <Pause className="w-4 h-4" />
-                    Pause
-                  </button>
-                )}
-                
-                <button
-                  onClick={handleResetStream}
-                  disabled={!connected}
-                  className="px-4 py-2 bg-slate-700 hover:bg-slate-600 disabled:bg-slate-800 disabled:cursor-not-allowed rounded-lg flex items-center gap-2 transition-colors"
-                >
-                  <RotateCcw className="w-4 h-4" />
-                  Reset
-                </button>
-              </div>
+            {/* Stats Bar */}
+            <div className="flex gap-4 md:gap-8 text-sm bg-slate-950/50 px-4 py-2 rounded-lg border border-slate-800">
+               <div>
+                 <span className="text-slate-500 block text-xs uppercase tracking-wider">Avg Delay</span>
+                 <span className="text-yellow-400 font-mono font-bold text-lg">{stats.avgDelay}m</span>
+               </div>
+               <div>
+                 <span className="text-slate-500 block text-xs uppercase tracking-wider">High Risk</span>
+                 <span className="text-red-400 font-mono font-bold text-lg">{stats.highRisk}</span>
+               </div>
+               <div>
+                 <span className="text-slate-500 block text-xs uppercase tracking-wider">Delayed</span>
+                 <span className="text-white font-mono font-bold text-lg">{stats.delayed}</span>
+               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Stats Panel */}
-      <div className="border-b border-slate-800 bg-slate-900/30">
-        <div className="container mx-auto px-4 py-3">
-          <StatsPanel 
-            activeFlights={activeFlights}
-            streamStatus={streamStatus}
-            isStreaming={isStreaming}
-          />
+        {/* --- SCROLLABLE TABS --- */}
+        <div className="container mx-auto px-4 mt-4">
+          <div 
+            ref={scrollContainerRef}
+            className="flex gap-1 overflow-x-auto pb-0 scrollbar-hide border-b border-slate-800"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {/* Summary Tabs */}
+            <TabButton 
+              label="Delayed" 
+              count={stats.delayed} 
+              isActive={activeTab === 'Delayed'} 
+              onClick={() => setActiveTab('Delayed')} 
+              icon={<AlertTriangle className="w-3 h-3" />}
+              activeColor="text-yellow-400 border-yellow-400"
+            />
+            <TabButton 
+              label="High Risk" 
+              count={stats.highRisk} 
+              isActive={activeTab === 'High Risk'} 
+              onClick={() => setActiveTab('High Risk')}
+              icon={<Activity className="w-3 h-3" />} 
+              activeColor="text-red-400 border-red-400"
+            />
+            <TabButton 
+              label="All Flights" 
+              count={stats.total} 
+              isActive={activeTab === 'All'} 
+              onClick={() => setActiveTab('All')}
+              icon={<Layers className="w-3 h-3" />} 
+            />
+
+            {/* Vertical Divider */}
+            <div className="w-px bg-slate-800 mx-2 my-1" />
+
+            {/* Carrier Tabs */}
+            {uniqueCarriers.map(carrier => (
+              <TabButton
+                key={carrier}
+                label={carrier}
+                isActive={activeTab === carrier}
+                onClick={() => setActiveTab(carrier)}
+                // Show count of delayed flights for this carrier if meaningful, else just show dot
+                count={activeFlights.filter(f => f.carrier === carrier && f.current_delay_minutes > 0).length || undefined}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-6">
-        {activeFlights.length === 0 ? (
-          <div className="text-center py-20">
-            <p className="text-slate-400 text-lg">
-              {connected 
-                ? 'No active flights. Click "Start Stream" to begin.'
-                : 'Connecting to telemetry stream...'
-              }
-            </p>
+      {/* --- MAIN CONTENT --- */}
+      <div className="flex-1 container mx-auto px-4 py-6 overflow-y-auto">
+        {filteredFlights.length === 0 ? (
+          <div className="flex flex-col items-center justify-center h-64 text-slate-500 border border-dashed border-slate-800 rounded-xl bg-slate-900/30">
+            <p className="text-lg">No flights match the current filter.</p>
+            {activeTab === 'Delayed' && <p className="text-sm mt-2">Great news! No delays reported.</p>}
           </div>
         ) : (
-          <div className="space-y-6">
-            {carriers.map(carrier => (
-              <div key={carrier} className="bg-slate-900/50 border border-slate-800 rounded-lg overflow-hidden">
-                <div className="px-6 py-3 bg-slate-800/50 border-b border-slate-700">
-                  <h2 className="text-lg font-semibold flex items-center gap-2">
-                    <span className="text-blue-400">{carrier}</span>
-                    <span className="text-slate-400 text-sm">
-                      ({flightsByCarrier[carrier].length} active flights)
-                    </span>
-                  </h2>
-                </div>
-                
-                <FlightTable flights={flightsByCarrier[carrier]} />
-              </div>
-            ))}
+          <div className="bg-slate-900/50 border border-slate-800 rounded-xl overflow-hidden shadow-xl">
+            {/* Table Header Context */}
+            <div className="px-6 py-4 bg-slate-800/50 border-b border-slate-700 flex justify-between items-center">
+              <h2 className="font-semibold text-slate-200 flex items-center gap-2">
+                {activeTab === 'Delayed' || activeTab === 'High Risk' || activeTab === 'All' 
+                  ? activeTab 
+                  : `Carrier: ${activeTab}`
+                }
+                <span className="px-2 py-0.5 bg-slate-700 text-slate-300 text-xs rounded-full">
+                  {filteredFlights.length}
+                </span>
+              </h2>
+            </div>
+            
+            {/* The Existing Flight Table Component */}
+            <FlightTable flights={filteredFlights} />
           </div>
         )}
       </div>
     </div>
   );
 };
+
+// --- Helper Components ---
+
+interface TabButtonProps {
+  label: string;
+  count?: number;
+  isActive: boolean;
+  onClick: () => void;
+  icon?: React.ReactNode;
+  activeColor?: string;
+}
+
+const TabButton: React.FC<TabButtonProps> = ({ 
+  label, 
+  count, 
+  isActive, 
+  onClick, 
+  icon,
+  activeColor = "text-blue-400 border-blue-400"
+}) => (
+  <button
+    onClick={onClick}
+    className={`
+      flex items-center gap-2 px-4 py-3 text-sm font-medium transition-all whitespace-nowrap border-b-2
+      ${isActive 
+        ? `${activeColor} bg-slate-800/50` 
+        : 'text-slate-400 border-transparent hover:text-slate-200 hover:bg-slate-800/30'
+      }
+    `}
+  >
+    {icon}
+    {label}
+    {count !== undefined && (
+      <span className={`text-xs px-1.5 py-0.5 rounded-full ${isActive ? 'bg-slate-900/50' : 'bg-slate-800'}`}>
+        {count}
+      </span>
+    )}
+  </button>
+);
 
 export default FlightDashboard;

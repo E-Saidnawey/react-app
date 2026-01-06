@@ -23,7 +23,7 @@ interface StatsPanelProps {
 }
 
 const StatsPanel: React.FC<StatsPanelProps> = ({ activeFlights, streamStatus, isStreaming }) => {
-  const delayedFlights = activeFlights.filter(f => f.current_delay_minutes > 15);
+  const delayedFlights = activeFlights.filter(f => f.current_delay_minutes > 0);
   const highRiskFlights = activeFlights.filter(f => f.risk_level === 'High');
   const avgDelay = activeFlights.length > 0
     ? activeFlights.reduce((sum, f) => sum + f.current_delay_minutes, 0) / activeFlights.length
