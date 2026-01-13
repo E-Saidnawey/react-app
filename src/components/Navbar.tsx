@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Home, BarChart3, Newspaper } from 'lucide-react';
+import { Menu, X, Home, BarChart3, Newspaper, Plane } from 'lucide-react';
 import { Music } from "lucide-react";
 
 const Navbar: React.FC = () => {
@@ -11,7 +11,8 @@ const Navbar: React.FC = () => {
     { path: '/', label: 'Home', icon: Home },
     { path: '/resume', label: 'Resume', icon: Newspaper},
     { path: '/analysis', label: 'Analysis', icon: BarChart3 },
-    { path: '/spotify', label: 'Spotify Insight', icon: Music}
+    { path: '/spotify', label: 'Spotify Insight', icon: Music},
+    { path: '/flights', label: 'Flight Simulation', icon: Plane}
   ];
 
   const isActive = (path: string) => location.pathname === path;
