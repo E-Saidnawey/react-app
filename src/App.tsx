@@ -1,24 +1,26 @@
+import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout';
 import Home from './pages/Home';
-import Resume from './pages/Resume';
-import Analysis from './pages/Analysis';
-import SpotifyAnalytics from './pages/Spotify';
-import FlightDashboard from './pages/FlightDashboard';
-import './App.css';
+
+// Project pages load on demand so the home page stays light
+const Resume = lazy(() => import('./pages/Resume'));
+const SpotifyAnalytics = lazy(() => import('./pages/Spotify'));
+const FlightDashboard = lazy(() => import('./pages/FlightDashboard'));
+const Writings = lazy(() => import('./pages/Writings'));
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Layout />}>
+      <Suspense fallback={<div className="min-h-screen bg-[#000005]" />}>
+        <Routes>
           <Route index element={<Home />} />
           <Route path="resume" element={<Resume />} />
-          <Route path="analysis" element={<Analysis />} />
           <Route path="spotify" element={<SpotifyAnalytics />} />
           <Route path="flights" element={<FlightDashboard />} />
-        </Route>
-      </Routes>
+          <Route path="writings" element={<Writings />} />
+          <Route path="*" element={<Home />} />
+        </Routes>
+      </Suspense>
     </Router>
   );
 }

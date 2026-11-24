@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Briefcase, GraduationCap, Code, Download} from "lucide-react";
+import { Mail, Phone, MapPin, Rocket, GraduationCap, Sparkles, Download} from "lucide-react";
+import MissionLog from "../components/space/MissionLog";
+import SkillConstellation from "../components/space/SkillConstellation";
+import BackToSystem from "../components/BackToSystem";
 
 const Resume: React.FC = () => {
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
@@ -129,8 +132,9 @@ const Resume: React.FC = () => {
   };
 
   return (
-  <div className="min-h-screen bg-backgroDownloadund py-12">
+  <div className="dark space-bg min-h-screen pb-12 pt-6 text-foreground">
     <div className="container mx-auto max-w-4xl px-4">
+      <BackToSystem className="mb-6" />
       {/* Header */}
       <header className="mb-12 text-center">
         <h1 className="mb-3 text-4xl font-bold text-foreground">{resumeData.name}</h1>
@@ -146,7 +150,7 @@ const Resume: React.FC = () => {
   <a
     href="/EricSaidnaweyResume.pdf"
     download="EricSaidnaweyResume.pdf"
-    className="inline-flex items-center gap-2 px-6 py-3 bg-gray-200 text-black font-medium rounded-lg hover:bg-gray-400 transition-colors shadow-sm"
+    className="inline-flex items-center gap-2 px-6 py-3 bg-white text-slate-950 font-medium rounded-full hover:bg-indigo-100 transition-colors shadow-[0_0_24px_rgba(165,180,252,0.35)]"
   >
     <Download className="w-5 h-5" />
     Download Resume
@@ -165,42 +169,23 @@ const Resume: React.FC = () => {
       {/* Experience */}
       <section className="mb-10">
         <div className="mb-4 flex items-center gap-2">
-          <Briefcase className="h-5 w-5 text-foreground" />
-          <h2 className="text-2xl font-semibold text-foreground">Experience</h2>
+          <Rocket className="h-5 w-5 text-indigo-300" />
+          <h2 className="text-2xl font-semibold text-foreground">Mission Log</h2>
         </div>
-        <div className="space-y-6">
-          {resumeData.experience.map((job, index) => (
-            <div
-              key={index}
-              className="bg-card border border-border rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow"
-            >
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
-                <h3 className="text-lg font-semibold text-foreground">{job.position}</h3>
-                <span className="text-sm text-muted-foreground">{job.duration}</span>
-              </div>
-              <p className="text-sm font-medium text-muted-foreground mb-2">{job.company}</p>
-              <p className="text-muted-foreground mb-4">{job.description}</p>
-              <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-                {job.achievements.map((a, i) => (
-                  <li key={i}>{a}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
+        <MissionLog entries={resumeData.experience} />
       </section>
 
       {/* Education */}
       <section className="mb-10">
         <div className="mb-4 flex items-center gap-2">
-          <GraduationCap className="h-5 w-5 text-foreground" />
+          <GraduationCap className="h-5 w-5 text-indigo-300" />
           <h2 className="text-2xl font-semibold text-foreground">Education</h2>
         </div>
         <div className="space-y-6">
           {resumeData.education.map((edu, index) => (
             <div
               key={index}
-              className="bg-card border border-border rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow"
+              className="rounded-2xl border border-white/10 bg-slate-950/50 backdrop-blur-sm p-6 text-left hover:border-indigo-300/40 transition-colors"
             >
               <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
                 <h3 className="text-lg font-semibold text-foreground">{edu.degree}</h3>
@@ -217,7 +202,7 @@ const Resume: React.FC = () => {
                     <button
                       key={i}
                       onClick={() => handleClassClick(className)}
-                      className="px-3 py-1 bg-muted text-foreground text-xs font-medium rounded-full hover:bg-muted/70 transition"
+                      className="px-3 py-1 border border-white/15 text-white/80 text-xs font-medium rounded-full hover:border-indigo-300/60 hover:text-white transition"
                     >
                       {className}
                     </button>
@@ -232,27 +217,17 @@ const Resume: React.FC = () => {
       {/* Skills */}
       <section className="mb-10">
         <div className="mb-4 flex items-center gap-2">
-          <Code className="h-5 w-5 text-foreground" />
-          <h2 className="text-2xl font-semibold text-foreground">Skills</h2>
+          <Sparkles className="h-5 w-5 text-indigo-300" />
+          <h2 className="text-2xl font-semibold text-foreground">Skills Constellation</h2>
         </div>
-        <div className="flex flex-wrap gap-2">
-          {resumeData.skills.map((skill, i) => (
-            <button
-              key={i}
-              onClick={() => handleSkillClick(skill)}
-              className="px-3 py-1 bg-muted text-foreground text-xs font-medium rounded-full hover:bg-muted/70 transition"
-            >
-              {skill}
-            </button>
-          ))}
-        </div>
+        <SkillConstellation skills={resumeData.skills} onSelect={handleSkillClick} />
       </section>
     </div>
 
     {/* Skill Description Modal */}
     {selectedSkill && (
-      <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-        <div className="bg-white max-w-md w-full p-6 rounded-lg shadow-lg">
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div className="bg-slate-900 border border-white/15 text-left max-w-md w-full p-6 rounded-2xl shadow-2xl">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-foreground">{selectedSkill}</h3>
             <button
@@ -269,8 +244,8 @@ const Resume: React.FC = () => {
 
     {/* Class Description Modal */}
     {selectedClass && (
-      <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-        <div className="bg-white max-w-md w-full p-6 rounded-lg shadow-lg">
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div className="bg-slate-900 border border-white/15 text-left max-w-md w-full p-6 rounded-2xl shadow-2xl">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-foreground">{selectedClass}</h3>
             <button
