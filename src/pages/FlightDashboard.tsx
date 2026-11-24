@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { io } from 'socket.io-client';
 import FlightTable from '../components/FlightTable';
+import BackToSystem from '../components/BackToSystem';
 import { Clock as ClockIcon, AlertTriangle, Activity, Layers } from 'lucide-react';
 
 // --- Interfaces ---
@@ -156,6 +157,7 @@ const FlightDashboard: React.FC = () => {
             
             {/* Title & Clock */}
             <div>
+              <BackToSystem className="mb-3" />
               <h1 className="text-xl font-bold text-white flex items-center gap-2">
                 Flight Operations Center
                 <div className={`w-2 h-2 rounded-full ${connected ? 'bg-green-500' : 'bg-red-500'} animate-pulse`} />

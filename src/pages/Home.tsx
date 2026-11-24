@@ -1,165 +1,142 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowRight, Code, TrendingUp, FileText } from 'lucide-react';
+import { Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react';
+import { projects } from '../data/projects';
+import ProjectPanel from '../components/ProjectPanel';
+import SpaceCursor from '../components/SpaceCursor';
+import { useMediaQuery } from '../hooks/useMediaQuery';
 
-const Home: React.FC = () => {
+// three.js is heavy, so the 3D scene loads in its own chunk
+const SolarSystem = lazy(() => import('../components/solar/SolarSystem'));
+
+function Loading() {
   return (
-    <div className="w-full">
-      {/* Hero Section */}
-      <div className="min-h-[75vh] flex items-center justify-center px-6 py-12">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-6xl md:text-7xl font-light text-gray-900 mb-6">
-            Hi, I'm Eric Saidnawey
-          </h1>
-          <p className="text-2xl md:text-3xl text-gray-600 mb-8 font-light">
-            Data Analyst & Systems Engineer
-          </p>
-          <p className="text-xl text-gray-600 mb-12 leading-relaxed max-w-2xl mx-auto">
-            I transform complex data into actionable insights, building predictive models 
-            and analytics solutions that drive decision-making.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              to="/resume"
-              className="inline-flex items-center justify-center px-8 py-4 bg-gray-900 text-white font-medium hover:bg-gray-800 transition-colors duration-200"
-            >
-              View My Resume
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Link>
-            <Link
-              to="/analysis"
-              className="inline-flex items-center justify-center px-8 py-4 border-2 border-gray-900 text-gray-900 font-medium hover:bg-gray-900 hover:text-white transition-colors duration-200"
-            >
-              Explore My Projects
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* What I Do Section */}
-      <div className="bg-gray-50 py-20 px-6">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-light text-gray-900 mb-16 text-center">
-            What I Do
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-900 text-white mb-6">
-                <TrendingUp className="w-8 h-8" />
-              </div>
-              <h3 className="text-xl font-medium text-gray-900 mb-4">
-                Data Analysis & Modeling
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                Building predictive models and performing statistical analysis to forecast 
-                system performance and drive data-driven decisions for satellite systems.
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-900 text-white mb-6">
-                <Code className="w-8 h-8" />
-              </div>
-              <h3 className="text-xl font-medium text-gray-900 mb-4">
-                Full-Stack Development
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                Developing automated anomaly detection pipelines and reporting dashboards 
-                using Python, MATLAB, PostgreSQL, React, and TypeScript. This portfolio site itself is built with React and TypeScript.
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-900 text-white mb-6">
-                <FileText className="w-8 h-8" />
-              </div>
-              <h3 className="text-xl font-medium text-gray-900 mb-4">
-                Systems Engineering
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                Leading diagnostic analysis on satellite systems, creating trending packages, 
-                and conducting root-cause investigations for mission-critical operations.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Quick Stats Section */}
-      <div className="py-20 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-4xl font-light text-gray-900 mb-2">3+</div>
-              <div className="text-gray-600">Years Experience</div>
-            </div>
-            <div>
-              <div className="text-4xl font-light text-gray-900 mb-2">20+</div>
-              <div className="text-gray-600">Models Built</div>
-            </div>
-            <div>
-              <div className="text-4xl font-light text-gray-900 mb-2">3</div>
-              <div className="text-gray-600">React Dashboards Created</div>
-            </div>
-            <div>
-              <div className="text-4xl font-light text-gray-900 mb-2">3</div>
-              <div className="text-gray-600">Employee Awards</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Education & Background */}
-      <div className="bg-gray-50 py-20 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-light text-gray-900 mb-8">
-            Education & Growth
-          </h2>
-          <p className="text-xl text-gray-600 leading-relaxed mb-8">
-            Currently pursuing a <strong>Master of Science in Data Science</strong> at 
-            Georgia Institute of Technology while working full-time as a Systems Engineer 
-            at Northrop Grumman.
-          </p>
-          <p className="text-lg text-gray-600 leading-relaxed">
-            I hold a <strong>Bachelor of Science in Mechanical Engineering</strong> from 
-            The George Washington University, where I built a strong foundation in 
-            analytical thinking, problem-solving, and computational methods.
-          </p>
-        </div>
-      </div>
-
-      {/* CTA Section */}
-      <div className="py-20 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-light text-gray-900 mb-8">
-            Let's Work Together
-          </h2>
-          <p className="text-xl text-gray-600 mb-12 leading-relaxed">
-            I'm passionate about using data to solve complex problems and create 
-            meaningful impact. Whether you're interested in my work or want to collaborate, 
-            I'd love to hear from you.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="mailto:esaidnawey165@gmail.com"
-              className="inline-flex items-center justify-center px-8 py-4 bg-gray-900 text-white font-medium hover:bg-gray-800 transition-colors duration-200"
-            >
-              Get In Touch
-            </a>
-            <Link
-              onClick={() => window.scrollTo(0, 0)}
-              to="/resume"
-              className="inline-flex items-center justify-center px-8 py-4 border-2 border-gray-900 text-gray-900 font-medium hover:bg-gray-900 hover:text-white transition-colors duration-200"
-            >
-              Visit Resume
-            </Link>
-          </div>
-        </div>
+    <div className="absolute inset-0 z-30 flex items-center justify-center bg-[#000005]" role="status">
+      <div className="flex flex-col items-center gap-4">
+        <span className="h-10 w-10 animate-pulse rounded-full bg-amber-200 shadow-[0_0_60px_20px_rgba(251,191,36,0.45)]" />
+        <span className="font-mono text-xs uppercase tracking-[0.3em] text-white/50">Plotting orbits…</span>
       </div>
     </div>
   );
-};
+}
 
-export default Home;
+export default function Home() {
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  // Planet under the mouse in the scene, and planet button hovered/focused in the list
+  const [sceneHoverId, setSceneHoverId] = useState<string | null>(null);
+  const [listHoverId, setListHoverId] = useState<string | null>(null);
+  const hoveredId = sceneHoverId ?? listHoverId;
+  const [ready, setReady] = useState(false);
+  const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
+  const compact = useMediaQuery('(max-width: 767px), (pointer: coarse)');
+  const finePointer = useMediaQuery('(hover: hover) and (pointer: fine)');
+  const lastTrigger = useRef<HTMLButtonElement | null>(null);
+
+  const selected = projects.find((p) => p.id === selectedId) ?? null;
+
+  const close = useCallback(() => {
+    setSelectedId(null);
+    // Give keyboard users their place back in the planet list
+    lastTrigger.current?.focus({ preventScroll: true });
+    lastTrigger.current = null;
+  }, []);
+
+  const select = useCallback(
+    (id: string | null) => {
+      if (id === null) close();
+      else setSelectedId(id);
+    },
+    [close],
+  );
+
+  const handleReady = useCallback(() => setReady(true), []);
+
+  useEffect(() => {
+    if (!selectedId) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') close();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [selectedId, close]);
+
+  useEffect(() => {
+    return () => {
+      document.body.style.cursor = '';
+    };
+  }, []);
+
+  return (
+    <main className={`fixed inset-0 overflow-hidden bg-[#000005] text-white ${finePointer ? 'has-space-cursor' : ''}`}>
+      <Suspense fallback={null}>
+        <SolarSystem
+          selectedId={selectedId}
+          hoveredId={hoveredId}
+          onSelect={select}
+          onHover={setSceneHoverId}
+          onReady={handleReady}
+          reducedMotion={reducedMotion}
+          compact={compact}
+        />
+      </Suspense>
+      {!ready && <Loading />}
+
+      <header className="pointer-events-none absolute left-4 top-4 z-10 max-w-[80vw] md:left-8 md:top-7">
+        <h1 className="text-xl font-light tracking-wide text-white md:text-2xl">Eric Saidnawey</h1>
+        <p className="text-sm text-white/65 md:text-base">Data Analyst &amp; Systems Engineer</p>
+        <p className="mt-2 font-mono text-[11px] tracking-wide text-indigo-200/60 md:text-xs">
+          Every planet is a project. Click one to land.
+        </p>
+      </header>
+
+      {/* Keyboard and screen-reader way to pick a planet */}
+      <nav
+        aria-label="Projects"
+        className={`absolute bottom-3 left-3 right-3 z-10 transition-opacity md:bottom-6 md:left-8 md:right-auto ${
+          selected && compact ? 'pointer-events-none opacity-0' : 'opacity-100'
+        }`}
+      >
+        <ul className="flex flex-wrap gap-1.5">
+          {projects.map((p) => (
+            <li key={p.id}>
+              <button
+                type="button"
+                aria-pressed={p.id === selectedId}
+                onClick={(e) => {
+                  lastTrigger.current = e.currentTarget;
+                  setSelectedId(p.id);
+                }}
+                onMouseEnter={() => setListHoverId(p.id)}
+                onMouseLeave={() => setListHoverId(null)}
+                onFocus={() => setListHoverId(p.id)}
+                onBlur={() => setListHoverId(null)}
+                className={`rounded-full border px-3 py-1.5 font-mono text-[11px] tracking-wide backdrop-blur-sm transition-colors focus-visible:outline-2 focus-visible:outline-indigo-300 ${
+                  p.id === selectedId
+                    ? 'border-white/50 bg-white/15 text-white'
+                    : 'border-white/10 bg-black/20 text-white/55 hover:border-white/30 hover:text-white'
+                }`}
+              >
+                {p.name}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      {selected && <ProjectPanel project={selected} onClose={close} />}
+
+      {finePointer && <SpaceCursor target={projects.find((p) => p.id === sceneHoverId) ?? null} />}
+
+      <p aria-live="polite" className="sr-only">
+        {selected ? `Flying to ${selected.name}.` : ''}
+      </p>
+
+      <a
+        href="https://www.solarsystemscope.com/textures/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="absolute bottom-1 right-2 z-10 hidden text-[10px] text-white/25 hover:text-white/60 md:block"
+      >
+        Textures: Solar System Scope (CC BY 4.0)
+      </a>
+    </main>
+  );
+}

@@ -18,6 +18,7 @@ import {
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
+import BackToSystem from "@/components/BackToSystem";
 
 interface AggregateDataItem {
   artist_name?: string;
@@ -260,7 +261,7 @@ const Spotify = () => {
     }
   };
 
-  const formatMonthValue = (value: any): string => {
+  const formatMonthValue = (value: unknown): string => {
     if (typeof value === 'number' && value >= 1 && value <= 12) {
       return MONTH_NAMES[value - 1];
     }
@@ -356,7 +357,7 @@ const Spotify = () => {
   const filteredArtists = getFilteredArtists();
 
   // Custom tooltip that shows all group by values
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: { payload: AggregateDataItem }[] }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       
@@ -368,8 +369,8 @@ const Spotify = () => {
                 {ALLOWED_GROUP_BY.find(g => g.value === col)?.label}:
               </span>{' '}
               {col === 'month' 
-                ? formatMonthValue(data[col])
-                : data[col]
+                ? formatMonthValue(data[col as keyof AggregateDataItem])
+                : data[col as keyof AggregateDataItem]
               }
             </p>
           ))}
@@ -388,6 +389,7 @@ const Spotify = () => {
   return (
     <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="max-w-7xl mx-auto space-y-8">
+        <BackToSystem />
         {/* Header */}
         <div className="text-center space-y-4 pt-8">
           <div className="flex items-center justify-center gap-3 mb-4">
